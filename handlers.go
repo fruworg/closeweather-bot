@@ -67,7 +67,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 			log.Fatalln(err)
 		}
 		w.CurrentByName(m.Text)
-		if w.Cod == 404 {
+		if w.Cod != 200 {
 			msg = "Город не найден!"
 		} else {
 			json, err := json.Marshal(OWM{City: m.Text})
