@@ -1,0 +1,2 @@
+### [t.me/closeweatherbot](https://t.me/closeweatherbot) 
+[openweathermap](https://github.com/briandowns/openweathermap) + [redis](https://github.com/go-redis/redis) + [tbot](https://github.com/yanzay/tbot) <br />
