@@ -4,9 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"os"
 	"strings"
 
+	"github.com/PuerkitoBio/goquery"
 	owm "github.com/briandowns/openweathermap"
 	"github.com/go-redis/redis"
 	"github.com/yanzay/tbot/v2"
@@ -42,10 +44,43 @@ func (a *application) msgHandler(m *tbot.Message) {
 			if err != nil {
 				log.Fatalln(err)
 			}
-			city = strings.TrimLeft(city, `{"city":"`)
-			city = strings.TrimRight(city, `"}`)
-			w.CurrentByName(city)
-			msg = fmt.Sprintf("%s", w.Main.Temp)
+			w.CurrentByName("Уфа")
+			desk := ""
+			geo := ""
+			arr := strings.Split(fmt.Sprintf("", w.Weather), " ")
+			for i := 3; i < len(arr)-1; i++ {
+				if i == 3 {
+					desk = strings.Title(strings.ToLower(arr[i]))
+				} else {
+					desk = desk + " " + arr[i]
+				}
+			}
+
+			res, err := http.Get("https://tesis.lebedev.ru/forecast_activity.html")
+			if err != nil {
+				log.Fatal(err)
+			}
+			defer res.Body.Close()
+			if res.StatusCode != 200 {
+				log.Fatalf("status code error: %d %s", res.StatusCode, res.Status)
+			}
+
+			// Load the HTML document
+			doc, err := goquery.NewDocumentFromReader(res.Body)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			doc.Find(`td`).Each(func(i int, s *goquery.Selection) {
+				if i == 48 {
+					geo = fmt.Sprintf("Магнитная буря: %s\n", s.Text())
+				}
+				if i == 51 {
+					geo = geo + fmt.Sprintf("Сильная магнитная буря: %s", s.Text())
+				}
+			})
+			msg = fmt.Sprintf("%s %s %s\n\nТемпература: %.2f°\nОщущается как: %.2f°\nВетер: %.2f м/c\n\n%s",
+			      w.Sys.Country, w.Name, desk, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, geo)
 		}
 	case "/week":
 		city, err := client.Get(m.Chat.ID).Result()
