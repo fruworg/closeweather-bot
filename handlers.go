@@ -1,15 +1,16 @@
 package main
 
 import (
-	"encoding/json"
+	"os"
 	"fmt"
 	"log"
-	"os"
+	"time"
 	"strings"
-
-	owm "github.com/briandowns/openweathermap"
-	"github.com/go-redis/redis"
+	"encoding/json"
+	
 	"github.com/yanzay/tbot/v2"
+	"github.com/go-redis/redis"
+	owm "github.com/briandowns/openweathermap"
 )
 
 var opt, err = redis.ParseURL(os.Getenv("REDIS_URL"))
