@@ -70,7 +70,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 		if w.Cod == 200 {
 			msg = "Город не найден!"
 		} else {
-			json, err := json.Marshal(OWM{City: m.Text})
+			json, err := json.Marshal(Author{City: m.Text})
 			if err != nil {
 				fmt.Println(err)
 			}
