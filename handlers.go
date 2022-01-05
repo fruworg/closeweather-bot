@@ -1,13 +1,13 @@
 package main
 
 import (
-	/*"encoding/json"
+	//"encoding/json"
 	"fmt"
 	"log"
 	"os"
 
 	owm "github.com/briandowns/openweathermap"
-	"github.com/go-redis/redis"*/
+	//"github.com/go-redis/redis"
 	"github.com/yanzay/tbot/v2"
 )
 
