@@ -58,7 +58,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 				}
 			}
 			
-			url = "https://tesis.lebedev.ru/magnetic_storms.html?date=20220105"
+			url = "https://tesis.lebedev.ru/magnetic_storms.html"
 			msg = fmt.Sprintf("%s %s Прогноз погоды\n\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n%s",
 				w.Sys.Country, w.Name, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, desk)
 		}
@@ -74,6 +74,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 			city = strings.TrimLeft(city, `{"city":"`)
 			city = strings.TrimRight(city, `"}`)
 			w.CurrentByName(city)
+			url = "https://tesis.lebedev.ru/forecast_activity.html"
 			msg = fmt.Sprintf("%s", w.Main.Temp)
 		}
 	default:
