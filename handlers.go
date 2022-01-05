@@ -19,7 +19,7 @@ var client = redis.NewClient(&redis.Options{
 	DB:       opt.DB,
 })
 
-type Author struct {
+type OWM struct {
 	City string `json:"city"`
 }
 
@@ -70,7 +70,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 		if w.Cod == 404 {
 			msg = "Город не найден!"
 		} else {
-			json, err := json.Marshal(Author{City: m.Text})
+			json, err := json.Marshal(OWM{City: m.Text})
 			if err != nil {
 				fmt.Println(err)
 			}
