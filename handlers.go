@@ -78,7 +78,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 			if err != nil {
 				fmt.Println(err)
 			}
-			msg = "Город изменён на" + m.Text + "."
+			msg = "Город изменён - " + m.Text + "."
 		}
 	}
 	a.client.SendMessage(m.Chat.ID, msg, tbot.OptParseModeMarkdown)
