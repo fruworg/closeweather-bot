@@ -79,7 +79,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 					geo = fmt.Sprintf("Магнитная буря: %s\n", s.Text())
 				}
 				if i == 51 {
-					geo = geo + fmt.Sprintf("Сильная магнитная буря: %s", s.Text())
+					geo = geo + fmt.Sprintf("Вероятность сильной: %s", s.Text())
 				}
 			})
 			msg = fmt.Sprintf("%s %s %s\n\nТемпература: %.2f°\nОщущается как: %.2f°\nВетер: %.2f м/c\n\n%s",
