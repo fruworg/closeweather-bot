@@ -43,8 +43,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 			w.CurrentByName(city)
 			msg = fmt.Sprintf("%s", w.Main.Temp)
 		}
-	}
-	if m.Text == "/week" {
+	} if else m.Text == "/week" {
 		city, err := client.Get(m.Chat.ID).Result()
 		if err == redis.Nil {
 			msg = "Сначала выбери город!\nКоманда /start в помощь."
