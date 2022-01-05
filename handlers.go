@@ -30,6 +30,7 @@ func (a *application) startHandler(m *tbot.Message) {
 
 // Handle the msg command here
 func (a *application) msgHandler(m *tbot.Message) {
+	a.client.SendChatAction(m.Chat.ID, tbot.ActionTyping)
 	msg := "Ты сделал что-то не так!"
 	switch m.Text {
 	case "/today":
@@ -56,6 +57,23 @@ func (a *application) msgHandler(m *tbot.Message) {
 			w.CurrentByName(city)
 			msg = fmt.Sprintf("%s", w.Main.Temp)
 		}
+	case "owm":
+		w, err := owm.NewCurrent("C", "ru", os.Getenv("OWM_API_KEY")) // fahrenheit (imperial) with Russian output
+			if err != nil {
+				log.Fatalln(err)
+			}
+			w.CurrentByName("Moscow")
+			msg = fmt.Sprintf("%s", w.Main.Temp)
+	case "redis":
+		json, err := json.Marshal(OWM{City: m.Text})
+		if err != nil {
+			fmt.Println(err)
+		}
+		err = client.Set(m.Chat.ID, json, 0).Err()
+		if err != nil {
+			fmt.Println(err)
+		}
+		msg = "Город изменён на" + m.Text + "."
 	default:
 		w, err := owm.NewCurrent("C", "ru", os.Getenv("OWM_API_KEY")) // fahrenheit (imperial) with Russian output
 		if err != nil {
@@ -65,7 +83,6 @@ func (a *application) msgHandler(m *tbot.Message) {
 		if w.Cod == 200 {
 			msg = "Город не найден!"
 		} else {
-			a.client.SendChatAction(m.Chat.ID, tbot.ActionTyping)
 			json, err := json.Marshal(OWM{City: m.Text})
 			if err != nil {
 				fmt.Println(err)
