@@ -34,7 +34,12 @@ func (a *application) msgHandler(m *tbot.Message) {
 	msg := "Ты сделал что-то не так!"
 	switch m.Text {
 	case "joper":
-		msg = "ok"
+		w, err := owm.NewCurrent("C", "ru", os.Getenv("OWM_API_KEY")) // fahrenheit (imperial) with Russian output
+		if err != nil {
+			log.Fatalln(err)
+		}
+		w.CurrentByName(city)
+		msg = fmt.Sprintf("%f", w.Main.Temp)
 	/*case "/today":
 		city, err := client.Get(m.Chat.ID).Result()
 		if err == redis.Nil {
