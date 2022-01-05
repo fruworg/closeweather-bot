@@ -18,7 +18,7 @@ var (
 )
 
 func main() {
-	bot = tbot.New(os.Getenv("TELEGRAM_TOKEN"), tbot.WithWebhook("https://magicdeer-bot.herokuapp.com", ":"+os.Getenv("PORT")))
+	bot = tbot.New(os.Getenv("TELEGRAM_TOKEN"), tbot.WithWebhook("https://closeweather-bot.herokuapp.com", ":"+os.Getenv("PORT")))
 	app.client = bot.Client()
 	bot.HandleMessage("/start", app.startHandler)
 	bot.HandleMessage(".+", app.msgHandler)
