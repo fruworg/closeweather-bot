@@ -59,8 +59,8 @@ func (a *application) msgHandler(m *tbot.Message) {
 			}
 			
 			url = "https://tesis.lebedev.ru/magnetic_storms.html?date=20220105"
-			msg = fmt.Sprintf("%s %s %s\n\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c",
-				w.Sys.Country, w.Name, desk, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed)
+			msg = fmt.Sprintf("%s %s Прогноз погоды\n\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\nОсадки:",
+				w.Sys.Country, w.Name, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, desk)
 		}
 	case "/week":
 		city, err := client.Get(m.Chat.ID).Result()
