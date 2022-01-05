@@ -71,8 +71,9 @@ func (a *application) msgHandler(m *tbot.Message) {
 			if err != nil {
 				log.Fatalln(err)
 			}
-			msg = city + "zxc"
-			w.DailyByName("Москва", 0)
+			city = strings.TrimLeft(city, `{"city":"`)
+			city = strings.TrimRight(city, `"}`)
+			w.DailyByName(city, 0)
 			if val, ok := w.ForecastWeatherJson.(*owm.Forecast5WeatherData); ok {
 				if len(val.List) != 0 {
 					msg = ""
