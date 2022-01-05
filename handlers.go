@@ -41,7 +41,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 				log.Fatalln(err)
 			}
 			w.CurrentByName(city)
-			msg = w
+			msg = fmt.Sprintf("%s", w.Main.Temp)
 		}
 	}
 	if m.Text == "/week" {
@@ -54,7 +54,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 				log.Fatalln(err)
 			}
 			w.CurrentByName(city)
-			msg = w
+			msg = fmt.Sprintf("%s", w.Main.Temp)
 		}
 	} else {
 		w, err := owm.NewCurrent("C", "ru", os.Getenv("OWM_API_KEY")) // fahrenheit (imperial) with Russian output
@@ -62,7 +62,6 @@ func (a *application) msgHandler(m *tbot.Message) {
 			log.Fatalln(err)
 		}
 		w.CurrentByName(m.Text)
-		msg = w
 		if w.Cod == 200 {
 			msg = "Город не найден!"
 		} else {
@@ -75,6 +74,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 			if err != nil {
 				fmt.Println(err)
 			}
+			msg = "Город изменён на" + m.Text + "."
 		}
 	}
 	a.client.SendMessage(m.Chat.ID, msg, tbot.OptParseModeMarkdown)
