@@ -26,9 +26,8 @@ type OWM struct {
 }
 
 func (a *application) startHandler(m *tbot.Message) {
-	msg := "test"
+	msg := "\n*Привет!* Чтобы начать, отправь город в чат.\n\nКоманда *\today* - прогноз на сегодня.\nКоманда *\week* - на 5 дней."
 	a.client.SendMessage(m.Chat.ID, msg, tbot.OptParseModeMarkdown)
-}
 
 // Handle the msg command here
 func (a *application) msgHandler(m *tbot.Message) {
