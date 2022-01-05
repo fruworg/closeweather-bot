@@ -74,7 +74,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 			w.DailyByName(city, 0)
 			if val, ok := w.ForecastWeatherJson.(*owm.Forecast5WeatherData); ok {
 				for i := 0; i < 39; i++ {
-					if len(val) != 0 {
+					if len(val.List) != 0 {
 					fl := strings.Split(fmt.Sprintf("%.2f", val.List[i:(i+1)]), " ")
 					st := strings.Split(fmt.Sprintf("%s", val.List[i:(i+1)]), " ")
 					dt := strings.Split(st[len(st)-4], "-")
