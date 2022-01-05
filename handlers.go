@@ -59,7 +59,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 			}
 			
 			url = "https://tesis.lebedev.ru/magnetic_storms.html?date=20220105"
-			msg = fmt.Sprintf("%s %s Прогноз погоды\n\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\nОсадки:\n%s",
+			msg = fmt.Sprintf("%s %s Прогноз погоды\n\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\nОсадки: %s",
 				w.Sys.Country, w.Name, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, desk)
 		}
 	case "/week":
