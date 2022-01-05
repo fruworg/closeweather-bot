@@ -1,14 +1,11 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
 	"strings"
 
-	"github.com/PuerkitoBio/goquery"
 	owm "github.com/briandowns/openweathermap"
 	"github.com/go-redis/redis"
 	"github.com/yanzay/tbot/v2"
@@ -60,33 +57,10 @@ func (a *application) msgHandler(m *tbot.Message) {
 					desk = desk + " " + arr[i]
 				}
 			}
-
-			res, err := http.Get("https://tesis.lebedev.ru/forecast_activity.html")
-			if err != nil {
-				log.Fatal(err)
-			}
-			defer res.Body.Close()
-			if res.StatusCode != 200 {
-				log.Fatalf("status code error: %d %s", res.StatusCode, res.Status)
-			}
-
-			// Load the HTML document
-			doc, err := goquery.NewDocumentFromReader(res.Body)
-			if err != nil {
-				log.Fatal(err)
-			}
-
-			doc.Find(`td`).Each(func(i int, s *goquery.Selection) {
-				if i == 48 {
-					geo = fmt.Sprintf("Магнитная буря: %s\n", s.Text())
-				}
-				if i == 51 {
-					geo = geo + fmt.Sprintf("Процентаж сильной: %s", s.Text())
-				}
-			})
+			
 			url = "https://tesis.lebedev.ru/magnetic_storms.html?date=20220105"
-			msg = fmt.Sprintf("%s %s %s\n\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n\n%s",
-				w.Sys.Country, w.Name, desk, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, geo)
+			msg = fmt.Sprintf("%s %s %s\n\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c",
+				w.Sys.Country, w.Name, desk, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed)
 		}
 	case "/week":
 		city, err := client.Get(m.Chat.ID).Result()
