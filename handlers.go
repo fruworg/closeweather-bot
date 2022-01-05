@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"strings"
+	"encoding/json"
 
 	owm "github.com/briandowns/openweathermap"
 	"github.com/go-redis/redis"
