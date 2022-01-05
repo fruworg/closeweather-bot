@@ -71,7 +71,8 @@ func (a *application) msgHandler(m *tbot.Message) {
 			if err != nil {
 				log.Fatalln(err)
 			}
-			w.DailyByName(city, 0)
+			msg = city + "zxc"
+			w.DailyByName("Москва", 0)
 			if val, ok := w.ForecastWeatherJson.(*owm.Forecast5WeatherData); ok {
 				for i := 0; i < 39; i++ {
 					if len(val.List) != 0 {
