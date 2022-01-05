@@ -122,7 +122,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 			msg = "Город изменён - " + m.Text + "."
 		}
 	}
-	if ulr == nil{
+	if url == ""{
 		a.client.SendMessage(m.Chat.ID, msg, tbot.OptParseModeMarkdown)}else{
 	a.client.SendPhoto(m.Chat.ID, url, tbot.OptCaption(msg))
 	}
