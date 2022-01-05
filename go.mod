@@ -13,4 +13,5 @@ require (
     golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97 // indirect
     golang.org/x/net v0.0.0-20210916014120-12bc252f5db8 // indirect
     golang.org/x/text v0.3.6 // indirect
+    github.com/briandowns/openweathermap v0.16.0
 )
