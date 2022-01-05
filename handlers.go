@@ -33,6 +33,8 @@ func (a *application) msgHandler(m *tbot.Message) {
 	a.client.SendChatAction(m.Chat.ID, tbot.ActionTyping)
 	msg := "Ты сделал что-то не так!"
 	switch m.Text {
+	case "joper":
+		msg = "ok"
 	case "/today":
 		city, err := client.Get(m.Chat.ID).Result()
 		if err == redis.Nil {
