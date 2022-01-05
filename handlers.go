@@ -33,13 +33,19 @@ func (a *application) msgHandler(m *tbot.Message) {
 	a.client.SendChatAction(m.Chat.ID, tbot.ActionTyping)
 	msg := "Ты сделал что-то не так!"
 	switch m.Text {
-	case "joper":
+	default:
+		fmt.Println("1")
 		w, err := owm.NewCurrent("C", "ru", os.Getenv("OWM_API_KEY")) // fahrenheit (imperial) with Russian output
+		fmt.Println("2")
 		if err != nil {
+			fmt.Println("err")
 			log.Fatalln(err)
 		}
+		fmt.Println("3")
 		w.CurrentByName(m.Text)
+		fmt.Println("4")
 		msg = fmt.Sprintf("%f", w.Main.Temp)
+		fmt.Println("5")
 	/*case "/today":
 		city, err := client.Get(m.Chat.ID).Result()
 		if err == redis.Nil {
