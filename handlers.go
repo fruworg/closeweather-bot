@@ -59,7 +59,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 			}
 
 			url = "https://tesis.lebedev.ru/magnetic_storms.html?date=20220105"
-			msg = fmt.Sprintf("%s %s Прогноз погоды\n\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n%s.",
+			msg = fmt.Sprintf("%s %s Прогноз на сейчас\n\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n%s.",
 				w.Sys.Country, w.Name, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, desk)
 		}
 	case "/week":
@@ -76,7 +76,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 			w.DailyByName(city, 0)
 			if val, ok := w.ForecastWeatherJson.(*owm.Forecast5WeatherData); ok {
 				if len(val.List) != 0 {
-					msg = ""
+					msg = fmt.Sprintf("%s %s Прогноз на неделю", val.City.Country, val.City.ID)
 					for i := 0; i < 39; i++ {
 						fl := strings.Split(fmt.Sprintf("%.2f", val.List[i:(i+1)]), " ")
 						st := strings.Split(fmt.Sprintf("%s", val.List[i:(i+1)]), " ")
