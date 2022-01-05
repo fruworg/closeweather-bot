@@ -19,7 +19,7 @@ var client = redis.NewClient(&redis.Options{
 })
 
 type OWM struct {
-	City string `json:"city`
+	City string `json:"city"`
 }
 
 // Handle the /start command here
