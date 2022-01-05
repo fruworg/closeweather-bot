@@ -74,7 +74,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 			city = strings.TrimLeft(city, `{"city":"`)
 			city = strings.TrimRight(city, `"}`)
 			w.CurrentByName(city)
-			url = "https://tesis.lebedev.ru/forecast_activity.html"
+			url = "https://tesis.lebedev.ru/upload_test/files/fc_20220105.png"
 			msg = fmt.Sprintf("%s", w.Main.Temp)
 		}
 	default:
