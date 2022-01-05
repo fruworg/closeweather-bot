@@ -4,38 +4,20 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"math/rand"
-	"net/http"
 	"os"
 	"strings"
-	"time"
 
-	"github.com/PuerkitoBio/goquery"
+	owm "github.com/briandowns/openweathermap"
 	"github.com/go-redis/redis"
 	"github.com/yanzay/tbot/v2"
 )
 
 var opt, err = redis.ParseURL(os.Getenv("REDIS_URL"))
 var client = redis.NewClient(&redis.Options{
-		Addr:     opt.Addr,
-		Password: opt.Password,
-		DB:       opt.DB,
-	})
-
-//deer by asciiart.eu
-//flower by eng50232@leonis.nus.sg
-var magicDeer = `
- \ /   .              *
-* :       ))    ((
-   \     // (") \\   '      .
-    :    \\_\)/_//  
- .   \  ~/~  ' ~\~\
-       ( Q/  _/Q  ~     o
-o       /  /     ,|
-    '  (~~~)__.-\ |
-        \'~~    | |   *
-  .      |      | |
-		`
+	Addr:     opt.Addr,
+	Password: opt.Password,
+	DB:       opt.DB,
+})
 
 type Author struct {
 	City string `json:"city"`
@@ -60,6 +42,8 @@ func (a *application) msgHandler(m *tbot.Message) {
 			if err != nil {
 				log.Fatalln(err)
 			}
+			city = strings.TrimLeft(city, `{"city":"`)
+			city = strings.TrimRight(city, `"}`)
 			w.CurrentByName(city)
 			msg = fmt.Sprintf("%s", w.Main.Temp)
 		}
@@ -72,6 +56,8 @@ func (a *application) msgHandler(m *tbot.Message) {
 			if err != nil {
 				log.Fatalln(err)
 			}
+			city = strings.TrimLeft(city, `{"city":"`)
+			city = strings.TrimRight(city, `"}`)
 			w.CurrentByName(city)
 			msg = fmt.Sprintf("%s", w.Main.Temp)
 		}
@@ -94,5 +80,6 @@ func (a *application) msgHandler(m *tbot.Message) {
 			}
 			msg = "Город изменён на" + m.Text + "."
 		}
-	}a.client.SendMessage(m.Chat.ID, msg, tbot.OptParseModeMarkdown)
+	}
+	a.client.SendMessage(m.Chat.ID, msg, tbot.OptParseModeMarkdown)
 }
