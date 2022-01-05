@@ -38,7 +38,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 		if err != nil {
 			log.Fatalln(err)
 		}
-		w.CurrentByName(city)
+		w.CurrentByName(m.Text)
 		msg = fmt.Sprintf("%f", w.Main.Temp)
 	/*case "/today":
 		city, err := client.Get(m.Chat.ID).Result()
