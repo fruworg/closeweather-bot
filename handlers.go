@@ -49,7 +49,6 @@ func (a *application) msgHandler(m *tbot.Message) {
 			city = strings.TrimRight(city, `"}`)
 			w.CurrentByName(city)
 			desk := ""
-			geo := ""
 			arr := strings.Split(fmt.Sprintf("", w.Weather), " ")
 			for i := 3; i < len(arr)-1; i++ {
 				if i == 3 {
