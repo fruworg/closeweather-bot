@@ -75,24 +75,26 @@ func (a *application) msgHandler(m *tbot.Message) {
 			w.DailyByName("Москва", 0)
 			if val, ok := w.ForecastWeatherJson.(*owm.Forecast5WeatherData); ok {
 				if len(val.List) != 0 {
-				for i := 0; i < 39; i++ {
-					fl := strings.Split(fmt.Sprintf("%.2f", val.List[i:(i+1)]), " ")
-					st := strings.Split(fmt.Sprintf("%s", val.List[i:(i+1)]), " ")
-					dt := strings.Split(st[len(st)-4], "-")
-					date := fmt.Sprintf("%s-%s-%s", dt[2], dt[1], dt[0])
-					desc := strings.Title(strings.ToLower(st[11]))
-					if len(st) == 26 {
-						desc = desc + " " + st[12] + " " + st[13]
+					msg = ""
+					for i := 0; i < 39; i++ {
+						fl := strings.Split(fmt.Sprintf("%.2f", val.List[i:(i+1)]), " ")
+						st := strings.Split(fmt.Sprintf("%s", val.List[i:(i+1)]), " ")
+						dt := strings.Split(st[len(st)-4], "-")
+						date := fmt.Sprintf("%s-%s-%s", dt[2], dt[1], dt[0])
+						desc := strings.Title(strings.ToLower(st[11]))
+						if len(st) == 26 {
+							desc = desc + " " + st[12] + " " + st[13]
+						}
+						if len(st) == 25 {
+							desc = desc + " " + st[12]
+						}
+						msg = msg + fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
+							date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
+							strings.TrimLeft(fl[14], "{"), desc)
+						fmt.Print(msg)
 					}
-					if len(st) == 25 {
-						desc = desc + " " + st[12]
-					}
-					msg = fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
-						date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
-						strings.TrimLeft(fl[14], "{"), desc)
-						fmt.Print(msg)}else{
-					msg = len(val.List)
-					}
+				} else {
+					msg = fmt.Sprintf("%v", len(val.List))
 				}
 			}
 			url = "https://tesis.lebedev.ru/upload_test/files/fc_20220105.png"
