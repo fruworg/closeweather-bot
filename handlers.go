@@ -35,6 +35,7 @@ func (a *application) startHandler(m *tbot.Message) {
 func (a *application) msgHandler(m *tbot.Message) {
 	a.client.SendChatAction(m.Chat.ID, tbot.ActionTyping)
 	msg := "Ты сделал что-то не так!"
+	url := ""
 	switch m.Text {
 	case "/today":
 		city, err := client.Get(m.Chat.ID).Result()
@@ -83,6 +84,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 					geo = geo + fmt.Sprintf("Процентаж сильной: %s", s.Text())
 				}
 			})
+			url = "https://tesis.lebedev.ru/magnetic_storms.html?date=20220105"
 			msg = fmt.Sprintf("%s %s %s\n\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n\n%s",
 				w.Sys.Country, w.Name, desk, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, geo)
 		}
@@ -120,7 +122,8 @@ func (a *application) msgHandler(m *tbot.Message) {
 			msg = "Город изменён - " + m.Text + "."
 		}
 	}
-	a.client.SendMessage(m.Chat.ID, msg, tbot.OptParseModeMarkdown)
-	msg = "https://i.imgur.com/KNcF6MG.jpeg"
-	a.client.SendPhoto(m.Chat.ID, msg, tbot.OptCaption("this is image"))
+	if ulr == nil{
+		a.client.SendMessage(m.Chat.ID, msg, tbot.OptParseModeMarkdown)}else{
+	a.client.SendPhoto(m.Chat.ID, url, tbot.OptCaption(msg))
+	}
 }
