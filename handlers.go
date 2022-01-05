@@ -88,9 +88,10 @@ func (a *application) msgHandler(m *tbot.Message) {
 						if len(st) == 25 {
 							desc = desc + " " + st[12]
 						}
+						if i <10 {
 						msg = fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
 							date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
-							strings.TrimLeft(fl[14], "{"), desc)
+								  strings.TrimLeft(fl[14], "{"), desc)}
 					}
 				} else {
 					msg = fmt.Sprintf("%v", len(val.List))
