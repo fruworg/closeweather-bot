@@ -1,4 +1,4 @@
-module github.com/fruworg/magicdeer-bot
+module github.com/fruworg/closeweather-bot
 
 // +heroku goVersion go1.17
 go 1.17
