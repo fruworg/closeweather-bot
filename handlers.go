@@ -121,4 +121,6 @@ func (a *application) msgHandler(m *tbot.Message) {
 		}
 	}
 	a.client.SendMessage(m.Chat.ID, msg, tbot.OptParseModeMarkdown)
+	msg = "https://i.imgur.com/KNcF6MG.jpeg"
+	a.client.SendPhoto(m.Chat.ID, msg, tbot.OptCaption("this is image"))
 }
