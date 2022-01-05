@@ -26,8 +26,9 @@ type OWM struct {
 }
 
 func (a *application) startHandler(m *tbot.Message) {
-	msg := "\n*Привет!* Чтобы начать, отправь город в чат.\nКоманда */today* - прогноз на сегодня.\nКоманда */week* - на 5 дней."
+	msg := "\n*Привет!* Чтобы начать, отправь город в чат.\n\nКоманда */today* - прогноз на сегодня.\nКоманда */week* - на 5 дней."
 	a.client.SendMessage(m.Chat.ID, msg, tbot.OptParseModeMarkdown)
+}
 
 // Handle the msg command here
 func (a *application) msgHandler(m *tbot.Message) {
@@ -38,7 +39,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 		city, err := client.Get(m.Chat.ID).Result()
 		if err == redis.Nil {
 			msg = "Сначала выбери город!\nКоманда /start в помощь."
-			
+
 		} else {
 			w, err := owm.NewCurrent("C", "ru", os.Getenv("OWM_API_KEY")) // fahrenheit (imperial) with Russian output
 			if err != nil {
@@ -82,7 +83,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 				}
 			})
 			msg = fmt.Sprintf("%s %s %s\n\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n\n%s",
-			      w.Sys.Country, w.Name, desk, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, geo)
+				w.Sys.Country, w.Name, desk, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, geo)
 		}
 	case "/week":
 		city, err := client.Get(m.Chat.ID).Result()
