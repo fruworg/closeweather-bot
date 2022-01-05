@@ -44,7 +44,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 			if err != nil {
 				log.Fatalln(err)
 			}
-			w.CurrentByName("Уфа")
+			w.CurrentByName(city)
 			desk := ""
 			geo := ""
 			arr := strings.Split(fmt.Sprintf("", w.Weather), " ")
