@@ -46,6 +46,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 		fmt.Println("4")
 		msg = fmt.Sprintf("%f", w.Main.Temp)
 		fmt.Println("5")
+		a.client.SendMessage(m.Chat.ID, msg, tbot.OptParseModeMarkdown)
 	/*case "/today":
 		city, err := client.Get(m.Chat.ID).Result()
 		if err == redis.Nil {
@@ -90,5 +91,4 @@ func (a *application) msgHandler(m *tbot.Message) {
 			msg = "Город изменён на" + m.Text + "."
 		}*/
 	}
-	a.client.SendMessage(m.Chat.ID, msg, tbot.OptParseModeMarkdown)
 }
