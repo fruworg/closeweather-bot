@@ -1,11 +1,11 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
 	"strings"
-	"encoding/json"
 
 	owm "github.com/briandowns/openweathermap"
 	"github.com/go-redis/redis"
@@ -24,8 +24,8 @@ type OWM struct {
 }
 
 func (a *application) startHandler(m *tbot.Message) {
-	msg := "\n*Привет!* Чтобы начать, напиши город в чат.\nДалее введи необходимую *команду*:\n"+
-	"Команда */today* - прогноз на сегодня.\nКоманда */week* - прогноз на 5 дней."
+	msg := "\n*Привет!* Чтобы начать, напиши город в чат.\nДалее введи необходимую *команду*:\n" +
+		"Команда */today* - прогноз на сегодня.\nКоманда */week* - прогноз на 5 дней."
 	a.client.SendMessage(m.Chat.ID, msg, tbot.OptParseModeMarkdown)
 }
 
@@ -57,7 +57,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 					desk = desk + " " + arr[i]
 				}
 			}
-			
+
 			url = "https://tesis.lebedev.ru/magnetic_storms.html?date=20220105"
 			msg = fmt.Sprintf("%s %s Прогноз погоды\n\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n%s.",
 				w.Sys.Country, w.Name, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, desk)
@@ -67,15 +67,31 @@ func (a *application) msgHandler(m *tbot.Message) {
 		if err == redis.Nil {
 			msg = "Сначала выбери город!\nКоманда /start в помощь."
 		} else {
-			w, err := owm.NewCurrent("C", "ru", os.Getenv("OWM_API_KEY")) // fahrenheit (imperial) with Russian output
+			w, err := owm.NewForecast("5", "C", "ru", os.Getenv("OWM_API_KEY")) // fahrenheit (imperial) with Russian output
 			if err != nil {
 				log.Fatalln(err)
 			}
-			city = strings.TrimLeft(city, `{"city":"`)
-			city = strings.TrimRight(city, `"}`)
-			w.CurrentByName(city)
+			w.DailyByName(city, 0)
+			if val, ok := w.ForecastWeatherJson.(*owm.Forecast5WeatherData); ok {
+				for i := 0; i < 39; i++ {
+					fl := strings.Split(fmt.Sprintf("%.2f", val.List[i:(i+1)]), " ")
+					st := strings.Split(fmt.Sprintf("%s", val.List[i:(i+1)]), " ")
+					dt := strings.Split(st[len(st)-4], "-")
+					date := fmt.Sprintf("%s-%s-%s", dt[2], dt[1], dt[0])
+					desc := strings.Title(strings.ToLower(st[11]))
+					if len(st) == 26 {
+						desc = desc + " " + st[12] + " " + st[13]
+					}
+					if len(st) == 25 {
+						desc = desc + " " + st[12]
+					}
+					msg = fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
+						date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
+						strings.TrimLeft(fl[14], "{"), desc)
+					fmt.Print(msg)
+				}
+			}
 			url = "https://tesis.lebedev.ru/upload_test/files/fc_20220105.png"
-			msg = fmt.Sprintf("%s", w.Main.Temp)
 		}
 	default:
 		w, err := owm.NewCurrent("C", "ru", os.Getenv("OWM_API_KEY")) // fahrenheit (imperial) with Russian output
@@ -97,8 +113,9 @@ func (a *application) msgHandler(m *tbot.Message) {
 			msg = "Город изменён - " + m.Text + "."
 		}
 	}
-	if url == ""{
-		a.client.SendMessage(m.Chat.ID, msg, tbot.OptParseModeMarkdown)}else{
-	a.client.SendPhoto(m.Chat.ID, url, tbot.OptCaption(msg))
+	if url == "" {
+		a.client.SendMessage(m.Chat.ID, msg, tbot.OptParseModeMarkdown)
+	} else {
+		a.client.SendPhoto(m.Chat.ID, url, tbot.OptCaption(msg))
 	}
 }
