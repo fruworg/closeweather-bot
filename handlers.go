@@ -74,8 +74,8 @@ func (a *application) msgHandler(m *tbot.Message) {
 			msg = city + "zxc"
 			w.DailyByName("Москва", 0)
 			if val, ok := w.ForecastWeatherJson.(*owm.Forecast5WeatherData); ok {
+				if len(val.List) != 0 {
 				for i := 0; i < 39; i++ {
-					if len(val.List) != 0 {
 					fl := strings.Split(fmt.Sprintf("%.2f", val.List[i:(i+1)]), " ")
 					st := strings.Split(fmt.Sprintf("%s", val.List[i:(i+1)]), " ")
 					dt := strings.Split(st[len(st)-4], "-")
@@ -91,7 +91,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 						date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
 						strings.TrimLeft(fl[14], "{"), desc)
 						fmt.Print(msg)}else{
-					msg = city
+					msg = len(val.List)
 					}
 				}
 			}
