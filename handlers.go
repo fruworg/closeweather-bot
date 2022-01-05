@@ -39,11 +39,14 @@ func (a *application) msgHandler(m *tbot.Message) {
 		city, err := client.Get(m.Chat.ID).Result()
 		if err == redis.Nil {
 			msg = "Сначала выбери город!\nКоманда /start в помощь."
+			
 		} else {
 			w, err := owm.NewCurrent("C", "ru", os.Getenv("OWM_API_KEY")) // fahrenheit (imperial) with Russian output
 			if err != nil {
 				log.Fatalln(err)
 			}
+			city = strings.TrimLeft(city, `{"city":"`)
+			city = strings.TrimRight(city, `"}`)
 			w.CurrentByName(city)
 			desk := ""
 			geo := ""
