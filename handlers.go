@@ -30,8 +30,9 @@ func (a *application) startHandler(m *tbot.Message) {
 
 // Handle the msg command here
 func (a *application) msgHandler(m *tbot.Message) {
-	msg := "Ты сделал что-то не так"
-	if m.Text == "/today" {
+	msg := "Ты сделал что-то не так!"
+	switch m.Text {
+	case "/today":
 		city, err := client.Get(m.Chat.ID).Result()
 		if err == redis.Nil {
 			msg = "Сначала выбери город!\nКоманда /start в помощь."
@@ -43,7 +44,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 			w.CurrentByName(city)
 			msg = fmt.Sprintf("%s", w.Main.Temp)
 		}
-	} if else m.Text == "/week" {
+	case "/week":
 		city, err := client.Get(m.Chat.ID).Result()
 		if err == redis.Nil {
 			msg = "Сначала выбери город!\nКоманда /start в помощь."
@@ -55,7 +56,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 			w.CurrentByName(city)
 			msg = fmt.Sprintf("%s", w.Main.Temp)
 		}
-	} else {
+	default:
 		w, err := owm.NewCurrent("C", "ru", os.Getenv("OWM_API_KEY")) // fahrenheit (imperial) with Russian output
 		if err != nil {
 			log.Fatalln(err)
