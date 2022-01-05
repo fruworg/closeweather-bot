@@ -79,10 +79,10 @@ func (a *application) msgHandler(m *tbot.Message) {
 					geo = fmt.Sprintf("Магнитная буря: %s\n", s.Text())
 				}
 				if i == 51 {
-					geo = geo + fmt.Sprintf("Вероятность сильной: %s", s.Text())
+					geo = geo + fmt.Sprintf("Процентаж сильной: %s", s.Text())
 				}
 			})
-			msg = fmt.Sprintf("%s %s %s\n\nТемпература: %.2f°\nОщущается как: %.2f°\nВетер: %.2f м/c\n\n%s",
+			msg = fmt.Sprintf("%s %s %s\n\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n\n%s",
 			      w.Sys.Country, w.Name, desk, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, geo)
 		}
 	case "/week":
