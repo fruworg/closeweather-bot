@@ -57,10 +57,12 @@ func (a *application) msgHandler(m *tbot.Message) {
 					desk = desk + " " + arr[i]
 				}
 			}
-
-			url = "https://tesis.lebedev.ru/magnetic_storms.html?date=20220105"
 			msg = fmt.Sprintf("%s %s Прогноз на сейчас\n\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n%s.",
 				w.Sys.Country, w.Name, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, desk)
+			loc, _ := time.LoadLocation("Europe/Moscow")
+			dt := strings.Split(time.Now().In(loc).Format("2006-01-02"), "-")
+			urldate := fmt.Sprintf("%s%s%s", dt[0], dt[1], dt[2])
+			url = "https://tesis.lebedev.ru/magnetic_storms.html?date=" + urldate
 		}
 	case "/week":
 		city, err := client.Get(m.Chat.ID).Result()
@@ -98,7 +100,10 @@ func (a *application) msgHandler(m *tbot.Message) {
 					msg = fmt.Sprintf("%v", len(val.List))
 				}
 			}
-			url = "https://tesis.lebedev.ru/upload_test/files/fc_20220105.png"
+			loc, _ := time.LoadLocation("Europe/Moscow")
+			dt := strings.Split(time.Now().In(loc).Format("2006-01-02"), "-")
+			urldate := fmt.Sprintf("%s%s%s", dt[0], dt[1], dt[2])
+			url = "https://tesis.lebedev.ru/upload_test/files/fc_" + urldate + ".png"
 		}
 	default:
 		w, err := owm.NewCurrent("C", "ru", os.Getenv("OWM_API_KEY")) // fahrenheit (imperial) with Russian output
