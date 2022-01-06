@@ -1,3 +1,4 @@
+### [t.me/closeweatherbot](https://t.me/closeweatherbot)
 ```
                 .__                                            __  .__                  
            ____ |  |   ____  ______ ______  _  __ ____ _____ _/  |_|  |__   ___________ 
@@ -5,6 +6,7 @@
          \  \___|  |_(  <_> )___ \\  ___/\     /\  ___/ / __ \|  | |   Y  \  ___/|  | \/
           \___  >____/\____/____  >\___  >\/\_/  \___  >____  /__| |___|  /\___  >__|   
               \/                \/     \/            \/     \/          \/     \/    
-```
-### [t.me/closeweatherbot](https://t.me/closeweatherbot) 
-[openweathermap](https://github.com/briandowns/openweathermap) + [redis](https://github.com/go-redis/redis) + [tbot](https://github.com/yanzay/tbot) <br />
+``` 
+Бот-синоптик в Telegram. Магнитные бури,
+прогноз погоды и подсказки в выборе одежды.
+Сделано с помощью:[openweathermap](https://github.com/briandowns/openweathermap) + [redis](https://github.com/go-redis/redis) + [tbot](https://github.com/yanzay/tbot) <br />
