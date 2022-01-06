@@ -1,16 +1,16 @@
 package main
 
 import (
-	"os"
+	"encoding/json"
 	"fmt"
 	"log"
-	"time"
+	"os"
 	"strings"
-	"encoding/json"
-	
-	"github.com/yanzay/tbot/v2"
-	"github.com/go-redis/redis"
+	"time"
+
 	owm "github.com/briandowns/openweathermap"
+	"github.com/go-redis/redis"
+	"github.com/yanzay/tbot/v2"
 )
 
 var opt, err = redis.ParseURL(os.Getenv("REDIS_URL"))
@@ -32,6 +32,110 @@ func (a *application) startHandler(m *tbot.Message) {
 
 // Handle the msg command here
 func (a *application) msgHandler(m *tbot.Message) {
+	citycodes := map[string]string{
+		"абакан":          "QYPM",
+		"алматы":          "P8OF",
+		"анадырь":         "SSWT",
+		"архангельск":     "SRLE",
+		"астана":          "QJNY",
+		"астрахань":       "PQM0",
+		"ашхабад":         "OCMV",
+		"баку":            "OQM6",
+		"барнаул":         "QWOZ",
+		"белгород":        "QGL2",
+		"биробиджан":      "Q5T3",
+		"бишкек":          "P5O8",
+		"благовещенск":    "QESN",
+		"брянск":          "QWKV",
+		"вильнюс":         "R4K4",
+		"владивосток":     "P7T0",
+		"владикавказ":     "P6LQ",
+		"владимир":        "RDLD",
+		"волгоград":       "Q4LP",
+		"вологда":         "RVLC",
+		"воронеж":         "QMLA",
+		"горно-алтайск":   "QOP6",
+		"грозный":         "P8LT",
+		"душанбе":         "OFNQ",
+		"екатеринбург":    "RHN2",
+		"ереван":          "OPLQ",
+		"иваново":         "RILF",
+		"ижевск":          "RHMG",
+		"иркутск":         "QQQP",
+		"йошкар-ола":      "RGM0",
+		"казань":          "RBM3",
+		"калининград":     "R4JQ",
+		"калуга":          "R3L1",
+		"кемерово":        "R8P6",
+		"киев":            "QFKK",
+		"киров":           "RSM5",
+		"кишинёв":         "PUKF",
+		"кострома":        "RNLF",
+		"краснодар":       "PIL9",
+		"красноярск":      "RCPR",
+		"курган":          "R9NG",
+		"курск":           "QML1",
+		"кызыл":           "QMPV",
+		"липецк":          "QSLB",
+		"магадан":         "RXUK",
+		"майкоп":          "PGLC",
+		"махачкала":       "P6LY",
+		"минеральныеводы": "PDLL",
+		"минск":           "R0KB",
+		"москва":          "RAL5",
+		"мурманск":        "TIKR",
+		"набережныечелны": "RAMD",
+		"назрань":         "P7LQ",
+		"нальчик":         "P9LN",
+		"нижнийновгород":  "RELO",
+		"новгород":        "RRKM",
+		"новосибирск":     "R6OX",
+		"омск":            "R6O4",
+		"оренбург":        "QNML",
+		"орёл":            "QUL0",
+		"пенза":           "QVLR",
+		"пермь":           "ROMP",
+		"петрозаводск":    "SBKV",
+		"петропавловск-камчатский": "QUV8",
+		"псков":           "RNKD",
+		"рига":            "RIK0",
+		"ростов-на-дону":  "PVLB",
+		"рязань":          "R4LB",
+		"салехард":        "T3NK",
+		"самара":          "QVM6",
+		"санкт-петербург": "S0KJ",
+		"саранск":         "R1LS",
+		"саратов":         "QLLU",
+		"симферополь":     "PIKU",
+		"смоленск":        "R5KO",
+		"сочи":            "PALB",
+		"ставрополь":      "PILI",
+		"станциявосток":   "53QX",
+		"станциямирный":   "73PR",
+		"сыктывкар":       "SAM8",
+		"таллин":          "RXK2",
+		"тамбов":          "QSLG",
+		"ташкент":         "OWNS",
+		"тбилиси":         "OYLQ",
+		"тверь":           "REL0",
+		"тольятти":        "QXM4",
+		"томск":           "RFP3",
+		"тула":            "R1L5",
+		"тюмень":          "RJNH",
+		"улан-удэ":        "QNQZ",
+		"ульяновск":       "R2M1",
+		"уфа":             "R4MO",
+		"хабаровск":       "Q3T9",
+		"ханты-мансийск":  "S6NR",
+		"чебоксары":       "RDLY",
+		"челябинск":       "R7N4",
+		"череповец":       "RVL6",
+		"черкесск":        "PDLI",
+		"чита":            "QORH",
+		"элиста":          "PQLP",
+		"южно-сахалинск":  "PUTW",
+		"якутск":          "SCST",
+		"ярославль":       "RMLC"}
 	a.client.SendChatAction(m.Chat.ID, tbot.ActionTyping)
 	msg := "Ты сделал что-то не так!"
 	url := ""
@@ -63,6 +167,9 @@ func (a *application) msgHandler(m *tbot.Message) {
 			loc, _ := time.LoadLocation("Europe/Moscow")
 			dt := strings.Split(time.Now().In(loc).Format("2006-01-02"), "-")
 			urldate := fmt.Sprintf("%s%s%s", dt[0], dt[1], dt[2])
+			if citycodes[strings.ToLower(city)] != 0{
+				urldate = citycodes[strings.ToLower(city)]
+			}
 			url = "https://tesis.lebedev.ru/upload_test/files/kp_" + urldate + ".png?bg=1"
 		}
 	case "/week":
@@ -93,9 +200,10 @@ func (a *application) msgHandler(m *tbot.Message) {
 							desc = desc + " " + st[12]
 						}
 						if st[len(st)-3] == "06:00:00" || st[len(st)-3] == "15:00:00" {
-						msg = msg + fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
-							date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
-								  strings.TrimLeft(fl[14], "{"), desc)}
+							msg = msg + fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
+								date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
+								strings.TrimLeft(fl[14], "{"), desc)
+						}
 					}
 				} else {
 					msg = fmt.Sprintf("%v", len(val.List))
