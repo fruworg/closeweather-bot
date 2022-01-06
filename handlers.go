@@ -215,6 +215,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 			url = "https://tesis.lebedev.ru/upload_test/files/fc_" + urldate + ".png"
 		}
 	default:
+		m.Text = strings.TrimRight(m.Text, " .!")
 		w, err := owm.NewCurrent("C", "ru", os.Getenv("OWM_API_KEY")) // fahrenheit (imperial) with Russian output
 		if err != nil {
 			log.Fatalln(err)
