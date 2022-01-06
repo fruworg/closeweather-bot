@@ -9,4 +9,4 @@
 ``` 
 Бот-синоптик в Telegram. Магнитные бури, прогноз погоды и<br />
 подсказки в выборе одежды. На сегодня и всю неделю.<br />
-Сделано с помощью: [openweathermap](https://github.com/briandowns/openweathermap) + [redis](https://github.com/go-redis/redis) + [tbot](https://github.com/yanzay/tbot) + [ФИАН](https://tesis.lebedev.ru/)
+Сделано с помощью: [ФИАН](https://tesis.lebedev.ru/) + [openweathermap](https://github.com/briandowns/openweathermap) + [redis](https://github.com/go-redis/redis) + [tbot](https://github.com/yanzay/tbot)
