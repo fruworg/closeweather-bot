@@ -7,6 +7,6 @@
           \___  >____/\____/____  >\___  >\/\_/  \___  >____  /__| |___|  /\___  >__|   
               \/                \/     \/            \/     \/          \/     \/    
 ``` 
-Бот-синоптик в Telegram. Магнитные бури,
-прогноз погоды и подсказки в выборе одежды.
-Сделано с помощью:[openweathermap](https://github.com/briandowns/openweathermap) + [redis](https://github.com/go-redis/redis) + [tbot](https://github.com/yanzay/tbot) <br />
+Бот-синоптик в Telegram. Магнитные бури,<br />
+прогноз погоды и подсказки в выборе одежды.<br />
+Сделано с помощью:[openweathermap](https://github.com/briandowns/openweathermap) + [redis](https://github.com/go-redis/redis) + [tbot](https://github.com/yanzay/tbot) 
