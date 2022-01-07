@@ -169,6 +169,9 @@ func (a *application) msgHandler(m *tbot.Message) {
 			urldate := fmt.Sprintf("%s%s%s", dt[0], dt[1], dt[2])
 			if citycodes[strings.ToLower(city)] != ""{
 				urldate = citycodes[strings.ToLower(city)]
+			} else {
+				fmt.Println(citycodes[strings.ToLower(city)])
+				fmt.Println(city)
 			}
 			url = "https://tesis.lebedev.ru/upload_test/files/kp_" + urldate + ".png?bg=1"
 		}
