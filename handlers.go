@@ -168,9 +168,9 @@ func (a *application) msgHandler(m *tbot.Message) {
 			dt := strings.Split(time.Now().In(loc).Format("2006-01-02"), "-")
 			urldate := fmt.Sprintf("%s%s%s", dt[0], dt[1], dt[2])
 			if citycodes[strings.ToLower(city)] != ""{
-				urldate = citycodes[strings.ToLower(city)] + "_" + urldate
+				urldate = citycodes[strings.ToLower(city)]
 			}
-			url = "https://tesis.lebedev.ru/upload_test/files/kp_" + urldate + ".png?bg=1"
+			url = "https://tesis.lebedev.ru/upload_test/files/kp_" + urldate + ".png?bg=2"
 		}
 	case "/week":
 		city, err := client.Get(m.Chat.ID).Result()
