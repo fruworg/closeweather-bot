@@ -174,6 +174,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 				fmt.Println(city)
 			}
 			url = "https://tesis.lebedev.ru/upload_test/files/kp_" + urldate + ".png?bg=1"
+			fmt.Println(url)
 		}
 	case "/week":
 		city, err := client.Get(m.Chat.ID).Result()
