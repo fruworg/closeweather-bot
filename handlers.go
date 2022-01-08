@@ -156,7 +156,8 @@ func (a *application) msgHandler(m *tbot.Message) {
 				if len(val.List) != 0 {
 					msg = fmt.Sprintf("%s %s Прогноз на неделю", val.City.Country, val.City.Name)
 					cst := strings.Split(fmt.Sprintf("%s", val.List[0]), " ")
-					cdate := fmt.Sprintf("%s-%s-%s", cst[2], cst[1], cdt[0])
+					cdt := strings.Split(cst[len(cst)-4], "-")
+					cdate := fmt.Sprintf("%s-%s-%s", cdt[2], cdt[1], cdt[0])
 					for i := 0; i < 39; i++ {
 						fl := strings.Split(fmt.Sprintf("%.2f", val.List[i:(i+1)]), " ")
 						st := strings.Split(fmt.Sprintf("%s", val.List[i:(i+1)]), " ")
@@ -200,9 +201,9 @@ func (a *application) msgHandler(m *tbot.Message) {
 								desk = desk + " " + arr[i]
 							}
 						}
-						msg = fmt.Sprintf("%s %s Прогноз сейчас\n\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n%s.",
+						msg = fmt.Sprintf("%s %s Прогноз на сейчас\n\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n%s.",
 							w.Sys.Country, w.Name, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, desk) + msg
-						urldate = fmt.Sprintf("%s%s%s", cst[0], cst[1], cst[2])
+						urldate = fmt.Sprintf("%s%s%s", cdt[0], cdt[1], cdt[2])
 						if citycodes[strings.ToLower(city)] != "" {
 							urldate = citycodes[strings.ToLower(city)] + "_" + urldate
 						}
