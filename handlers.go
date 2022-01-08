@@ -210,10 +210,12 @@ func (a *application) msgHandler(m *tbot.Message) {
 							}
 						}
 						if len(w.Name) > 10 {
-							w.Name = w.Name + "\n"
+							w.Name = "Прогноз на сегодня\n" + w.Name
+						} else {
+							w.Name = w.Name + "Прогноз на сегодня"
 						}
-						msg = fmt.Sprintf("%s %s Прогноз на сегодня\n\n%s Сейчас\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n%s.",
-							w.Sys.Country, w.Name, cdate, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, desc) + msg
+						msg = fmt.Sprintf("%s %s\n\nСейчас\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n%s.",
+							w.Sys.Country, w.Name, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, desc) + msg
 						if citycodes[strings.ToLower(city)] != "" {
 							urldate = citycodes[strings.ToLower(city)] + "_" + urldate
 						}
