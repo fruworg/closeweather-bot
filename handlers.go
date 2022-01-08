@@ -179,12 +179,12 @@ func (a *application) msgHandler(m *tbot.Message) {
 									date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
 									strings.TrimLeft(fl[14], "{"), desc)
 								if st[len(st)-3] == "21:00:00" {
-									datecheck1 := "ok"
+									datecheck1 = "ok"
 									if datecheck1 != "" {
 										datecheck2 = "ok"
 									}
 								}
-								fmt.Println(len(msg))
+								fmt.Println(datecheck1, datecheck2)
 							}
 						} else if m.Text == "/today" && date == cdate {
 							if i == 0 {
