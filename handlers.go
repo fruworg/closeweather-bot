@@ -206,8 +206,8 @@ func (a *application) msgHandler(m *tbot.Message) {
 						}
 						msg = fmt.Sprintf("%s %s Прогноз на сегодня\n\n%s Сейчас\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n%s.",
 							w.Sys.Country, w.Name, cdate, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, desc) + msg
-						if citycodes[strings.ToLower(city)] != "" {
-							urldate = citycodes[strings.ToLower(city)] + "_" + urldate
+						if strings.TrimSpace(citycodes[strings.ToLower(city)]) != "" {
+							urldate = strings.TrimSpace(citycodes[strings.ToLower(city)]) + "_" + urldate
 						}
 						url = "https://tesis.lebedev.ru/upload_test/files/kp_" + urldate + ".png?bg=1"
 					} else {
