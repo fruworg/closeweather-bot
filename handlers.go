@@ -213,7 +213,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 							}
 						}
 						msg = fmt.Sprintf("%s\n\nСейчас - %s\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n%s.",
-							cityname, fadvice(fl[4]), w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, desc) + msg
+							cityname, fadvice(fmt.Sprintf("%.2f", w.Main.Temp)), w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, desc) + msg
 						if citycodes[strings.ToLower(city)] != "" {
 							urldate = citycodes[strings.ToLower(city)] + "_" + urldate
 						}
@@ -263,27 +263,27 @@ func fadvice(stemp string) (advice string) {
 		case temp <= -50.00:
 			advice = "Сиди дома"
 		case temp <= -40.00:
-			advice = "-40"
+			advice = "Одежда для высотных восхождений"
 		case temp <= -30.00:
-			advice = "-30"
+			advice = "Термобельё + свитер + \nпуховик + шарф + перчатки"
 		case temp <= -20.00:
-			advice = "-20"
+			advice = "Термобельё + лонгслив + пуховик"
 		case temp <= -10.00:
-			advice = "-10"
+			advice = "Лёгкая куртка + свитер"
 		case temp <= 00.00:
-			advice = "00"
-		case temp >= 00.00:
-			advice = "0"
-		case temp >= 10.00:
-			advice = "10"
-		case temp >= 20.00:
-			advice = "20"
-		case temp >= 30.00:
-			advice = "Шорты + футболка"
-		case temp >= 40.00:
-			advice = "Одежда не нужна"
+			advice = "Лонгслив + лёгкая куртка"
 		case temp >= 50.00:
 			advice = "Сиди дома"
+		case temp >= 40.00:
+			advice = "Одежда не нужна"
+		case temp >= 30.00:
+			advice = "Шорты + футболка"
+		case temp >= 20.00:
+			advice = "Лонгслив"
+		case temp >= 10.00:
+			advice = "Свитер"
+		case temp >= 00.00:
+			advice = "Лонгслив + ветровка"
 		}
 	}
 	return
