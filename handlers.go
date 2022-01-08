@@ -180,7 +180,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 							}
 						} else {
 							if date == cdate {
-								msg = msg + fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
+								msg = fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
 									date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
 									strings.TrimLeft(fl[14], "{"), desc)
 							}
@@ -201,8 +201,8 @@ func (a *application) msgHandler(m *tbot.Message) {
 								desk = desk + " " + arr[i]
 							}
 						}
-						msg = fmt.Sprintf("%s %s Прогноз на сейчас\n\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n%s.\n\n",
-							w.Sys.Country, w.Name, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, desk) + msg
+						msg = fmt.Sprintf("%s %s Прогноз на сегодня\n\n%s Прямо сейчас\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n%s.\n\n",
+							w.Sys.Country, w.Name, cdate, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, desk) + msg
 						urldate = fmt.Sprintf("%s%s%s", cdt[0], cdt[1], cdt[2])
 						if citycodes[strings.ToLower(city)] != "" {
 							urldate = citycodes[strings.ToLower(city)] + "_" + urldate
