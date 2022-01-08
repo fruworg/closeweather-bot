@@ -152,10 +152,14 @@ func (a *application) msgHandler(m *tbot.Message) {
 			w.DailyByName(city, 0)
 			if val, ok := w.ForecastWeatherJson.(*owm.Forecast5WeatherData); ok {
 				if len(val.List) != 0 {
+					if m.Text == "/week"{
+						cityname = " Прогноз на неделю\n"}else{
+						cityname = " Прогноз на сегодня\n"}
+					}
 					if len(val.City.Name) > 10 {
-						cityname = val.City.Country + " Прогноз на сегодня\n" + val.City.Name
+						cityname = val.City.Country + cityname + val.City.Name
 					} else {
-						cityname = val.City.Country + " " + val.City.Name + " Прогноз на сегодня"
+						cityname = val.City.Country + " " + val.City.Name + cityname
 					}
 					cst := strings.Split(fmt.Sprintf("%s", val.List[0]), " ")
 					cdt := strings.Split(cst[len(cst)-4], "-")
