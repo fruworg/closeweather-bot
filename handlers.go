@@ -210,7 +210,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 							}
 						}
 						msg = fmt.Sprintf("%s\n\nСейчас - %s\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n%s.",
-							cityname, fadvice(fmt.Sprintf("%.2f", w.Main.Temp)), w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, desc) + msg
+							cityname, fadvice(fmt.Sprintf("%.2f", w.Main.FeelsLike)), w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, desc) + msg
 						if citycodes[strings.ToLower(city)] != "" {
 							urldate = citycodes[strings.ToLower(city)] + "_" + urldate
 						}
