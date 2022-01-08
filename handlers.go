@@ -180,11 +180,8 @@ func (a *application) msgHandler(m *tbot.Message) {
 							desc = desc + " " + st[12]
 						}
 						if m.Text == "/week" && date != cdate {
-							if /*((st[len(st)-3] == "09:00:00" || st[len(st)-3] == "15:00:00" ||
-							  st[len(st)-3] == "21:00:00") && datecheck == 0) ||*/
-							st[len(st)-3] == "06:00:00" || st[len(st)-3] == "18:00:00" {
-								if st[len(st)-3] == "06:00:00" || datecheck == 0 {
-									/*st[len(st)-3] == "21:00:00" || st[len(st)-3] == "18:00:00"*/
+							if ((st[len(st)-3] == "06:00:00" || st[len(st)-3] == "18:00:00" {
+								if st[len(st)-3] == "06:00:00") && datecheck < 5) || datecheck == 0 {
 									datecheck++
 									msg = msg + "\n\n> Прогноз на " + date
 								}
@@ -263,11 +260,11 @@ func fadvice(stemp string) (advice string) {
 		case temp <= -50.00:
 			advice = "Сиди дома"
 		case temp <= -40.00:
-			advice = "Одежда для высотных восхождений"
+			advice = "Одежда для\nвысотных восхождений"
 		case temp <= -30.00:
-			advice = "Термобельё + свитер + \nпуховик + шарф + перчатки"
+			advice = "Термобельё + свитер +\nпуховик + шарф + перчатки"
 		case temp <= -20.00:
-			advice = "Термобельё + лонгслив + пуховик"
+			advice = "Термобельё +\nлонгслив + пуховик"
 		case temp <= -10.00:
 			advice = "Лёгкая куртка + свитер"
 		case temp <= 00.00:
