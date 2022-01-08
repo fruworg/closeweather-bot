@@ -172,14 +172,14 @@ func (a *application) msgHandler(m *tbot.Message) {
 						if len(st) == 25 {
 							desc = desc + " " + st[12]
 						}
-						if m.Text != "/today" && date != cdate{
+						if m.Text != "/today" && date != cdate {
 							if (st[len(st)-3] == "09:00:00" || st[len(st)-3] == "15:00:00" ||
-							    st[len(st)-3] == "21:00:00") && i < len(val.List)-6){
+								st[len(st)-3] == "21:00:00") && i < len(val.List)-6 {
 								msg = msg + fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
 									date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
 									strings.TrimLeft(fl[14], "{"), desc)
 							}
-						} else if m.Text == "/today"{
+						} else if m.Text == "/today" {
 							if date == cdate {
 								if i == 0 {
 									msg = ""
