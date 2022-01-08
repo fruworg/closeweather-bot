@@ -244,7 +244,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 			if err != nil {
 				fmt.Println(err)
 			}
-			msg = "Город изменён - " + w.Sys.Country " " + w.Name + "."
+			msg = "Город изменён - " + w.Sys.Country + " " + w.Name + "."
 		}
 	}
 	if url == "" {
