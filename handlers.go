@@ -175,13 +175,15 @@ func (a *application) msgHandler(m *tbot.Message) {
 							desc = desc + " " + st[12]
 						}
 						if m.Text == "/week" && date != cdate {
-							if ((st[len(st)-3] == "06:00:00" || st[len(st)-3] == "18:00:00" || st[len(st)-3] == "06:00:00") && datecheck < 5) || datecheck == 0 {
-								datecheck++
-								msg = msg + "\n\n> Прогноз на " + date
+							if (st[len(st)-3] == "06:00:00" || st[len(st)-3] == "18:00:00") && datecheck < 5 {
+								if st[len(st)-3] == "06:00:00" || datecheck == 0 {
+									datecheck++
+									msg = msg + "\n\n> Прогноз на " + date
+								}
+								msg = msg + fmt.Sprintf("\n\n%s - %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
+									st[len(st)-3], fadvice(fl[4]), strings.TrimLeft(fl[1], "{"), fl[4],
+									strings.TrimLeft(fl[14], "{"), desc)
 							}
-							msg = msg + fmt.Sprintf("\n\n%s - %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
-								st[len(st)-3], fadvice(fl[4]), strings.TrimLeft(fl[1], "{"), fl[4],
-								strings.TrimLeft(fl[14], "{"), desc)
 						} else if m.Text == "/today" && date == cdate {
 							msg = msg + fmt.Sprintf("\n\n%s - %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
 								st[len(st)-3], fadvice(fl[4]), strings.TrimLeft(fl[1], "{"), fl[4],
