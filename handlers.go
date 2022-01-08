@@ -32,69 +32,69 @@ func (a *application) startHandler(m *tbot.Message) {
 // Handle the msg command here
 func (a *application) msgHandler(m *tbot.Message) {
 	citycodes := map[string]string{
-		"абакан":          "QYPM",
-		"алматы":          "P8OF",
-		"анадырь":         "SSWT",
-		"архангельск":     "SRLE",
-		"астана":          "QJNY",
-		"астрахань":       "PQM0",
-		"ашхабад":         "OCMV",
-		"баку":            "OQM6",
-		"барнаул":         "QWOZ",
-		"белгород":        "QGL2",
-		"биробиджан":      "Q5T3",
-		"бишкек":          "P5O8",
-		"благовещенск":    "QESN",
-		"брянск":          "QWKV",
-		"вильнюс":         "R4K4",
-		"владивосток":     "P7T0",
-		"владикавказ":     "P6LQ",
-		"владимир":        "RDLD",
-		"волгоград":       "Q4LP",
-		"вологда":         "RVLC",
-		"воронеж":         "QMLA",
-		"горно-алтайск":   "QOP6",
-		"грозный":         "P8LT",
-		"душанбе":         "OFNQ",
-		"екатеринбург":    "RHN2",
-		"ереван":          "OPLQ",
-		"иваново":         "RILF",
-		"ижевск":          "RHMG",
-		"иркутск":         "QQQP",
-		"йошкар-ола":      "RGM0",
-		"казань":          "RBM3",
-		"калининград":     "R4JQ",
-		"калуга":          "R3L1",
-		"кемерово":        "R8P6",
-		"киев":            "QFKK",
-		"киров":           "RSM5",
-		"кишинёв":         "PUKF",
-		"кострома":        "RNLF",
-		"краснодар":       "PIL9",
-		"красноярск":      "RCPR",
-		"курган":          "R9NG",
-		"курск":           "QML1",
-		"кызыл":           "QMPV",
-		"липецк":          "QSLB",
-		"магадан":         "RXUK",
-		"майкоп":          "PGLC",
-		"махачкала":       "P6LY",
-		"минеральныеводы": "PDLL",
-		"минск":           "R0KB",
-		"москва":          "RAL5",
-		"мурманск":        "TIKR",
+		"абакан":           "QYPM",
+		"алматы":           "P8OF",
+		"анадырь":          "SSWT",
+		"архангельск":      "SRLE",
+		"астана":           "QJNY",
+		"астрахань":        "PQM0",
+		"ашхабад":          "OCMV",
+		"баку":             "OQM6",
+		"барнаул":          "QWOZ",
+		"белгород":         "QGL2",
+		"биробиджан":       "Q5T3",
+		"бишкек":           "P5O8",
+		"благовещенск":     "QESN",
+		"брянск":           "QWKV",
+		"вильнюс":          "R4K4",
+		"владивосток":      "P7T0",
+		"владикавказ":      "P6LQ",
+		"владимир":         "RDLD",
+		"волгоград":        "Q4LP",
+		"вологда":          "RVLC",
+		"воронеж":          "QMLA",
+		"горно-алтайск":    "QOP6",
+		"грозный":          "P8LT",
+		"душанбе":          "OFNQ",
+		"екатеринбург":     "RHN2",
+		"ереван":           "OPLQ",
+		"иваново":          "RILF",
+		"ижевск":           "RHMG",
+		"иркутск":          "QQQP",
+		"йошкар-ола":       "RGM0",
+		"казань":           "RBM3",
+		"калининград":      "R4JQ",
+		"калуга":           "R3L1",
+		"кемерово":         "R8P6",
+		"киев":             "QFKK",
+		"киров":            "RSM5",
+		"кишинёв":          "PUKF",
+		"кострома":         "RNLF",
+		"краснодар":        "PIL9",
+		"красноярск":       "RCPR",
+		"курган":           "R9NG",
+		"курск":            "QML1",
+		"кызыл":            "QMPV",
+		"липецк":           "QSLB",
+		"магадан":          "RXUK",
+		"майкоп":           "PGLC",
+		"махачкала":        "P6LY",
+		"минеральныеводы":  "PDLL",
+		"минск":            "R0KB",
+		"москва":           "RAL5",
+		"мурманск":         "TIKR",
 		"набережные челны": "RAMD",
-		"назрань":         "P7LQ",
-		"нальчик":         "P9LN",
+		"назрань":          "P7LQ",
+		"нальчик":          "P9LN",
 		"нижний новгород":  "RELO",
-		"новгород":        "RRKM",
-		"новосибирск":     "R6OX",
-		"омск":            "R6O4",
-		"оренбург":        "QNML",
-		"орёл":            "QUL0",
-		"пенза":           "QVLR",
-		"пермь":           "ROMP",
-		"петрозаводск":    "SBKV",
+		"новгород":         "RRKM",
+		"новосибирск":      "R6OX",
+		"омск":             "R6O4",
+		"оренбург":         "QNML",
+		"орёл":             "QUL0",
+		"пенза":            "QVLR",
+		"пермь":            "ROMP",
+		"петрозаводск":     "SBKV",
 		"петропавловск-камчатский": "QUV8",
 		"псков":           "RNKD",
 		"рига":            "RIK0",
@@ -137,9 +137,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 		"ярославль":       "RMLC"}
 	a.client.SendChatAction(m.Chat.ID, tbot.ActionTyping)
 	msg := "Ты сделал что-то не так!"
-	url := ""
-	urldate := ""
-	desc := ""
+	datecheck1, datecheck2, url, urldate, desc := "", "", "", "", ""
 	switch m.Text {
 	case "/week", "/today":
 		city, err := client.Get(m.Chat.ID).Result()
@@ -173,20 +171,28 @@ func (a *application) msgHandler(m *tbot.Message) {
 							desc = desc + " " + st[12]
 						}
 						if m.Text != "/today" && date != cdate {
-							if ((st[len(st)-3] == "09:00:00" || st[len(st)-3] == "15:00:00" || 
-							     st[len(st)-3] == "21:00:00") && i < len(val.List)-15) ||
-							((st[len(st)-3] == "06:00:00" || st[len(st)-3] == "18:00:00") && i >= len(val.List)-15) {
+							if ((st[len(st)-3] == "09:00:00" || st[len(st)-3] == "15:00:00" ||
+								st[len(st)-3] == "21:00:00") && i < len(val.List)-15) ||
+								((st[len(st)-3] == "06:00:00" || st[len(st)-3] == "18:00:00") &&
+									(datecheck1 != "" && datecheck2 != "")) {
 								msg = msg + fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
 									date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
 									strings.TrimLeft(fl[14], "{"), desc)
-							}
-						} else if m.Text == "/today" && date == cdate{
-								if i == 0 {
-									msg = ""
+								if st[len(st)-3] == "21:00:00" {
+									datecheck1 := "ok"
+									if datecheck1 != "" {
+										datecheck2 = "ok"
+									}
 								}
-								msg = msg + fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
-									date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
-									strings.TrimLeft(fl[14], "{"), desc)
+								fmt.Println(len(msg))
+							}
+						} else if m.Text == "/today" && date == cdate {
+							if i == 0 {
+								msg = ""
+							}
+							msg = msg + fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
+								date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
+								strings.TrimLeft(fl[14], "{"), desc)
 						}
 					}
 					if m.Text == "/today" {
