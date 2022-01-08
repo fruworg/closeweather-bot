@@ -177,11 +177,12 @@ func (a *application) msgHandler(m *tbot.Message) {
 						if m.Text == "/week" && date != cdate {
 							if ((st[len(st)-3] == "06:00:00" || st[len(st)-3] == "18:00:00") && datecheck < 3) ||
 								(st[len(st)-3] == "18:00:00" && datecheck == 3) ||
-								(st[len(st)-3] == "12:00:00" && datecheck == 10){
-								if st[len(st)-3] == "06:00:00" || datecheck == 0 || datecheck == 10{
+								(st[len(st)-3] == "12:00:00" && datecheck == 10) {
+								if st[len(st)-3] == "06:00:00" || datecheck == 0 || datecheck == 10 {
 									datecheck++
 									msg = msg + "\n\n> Прогноз на " + date
-								} if (st[len(st)-3] == "18:00:00" && datecheck == 3){
+								}
+								if st[len(st)-3] == "18:00:00" && datecheck == 3 {
 									datecheck = 10
 								}
 								msg = msg + fmt.Sprintf("\n\n%s - %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
@@ -243,7 +244,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 			if err != nil {
 				fmt.Println(err)
 			}
-			msg = "Город изменён - " + m.Text + "."
+			msg = "Город изменён - " + w.Name + "."
 		}
 	}
 	if url == "" {
