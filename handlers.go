@@ -213,7 +213,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 						}
 						url = "https://tesis.lebedev.ru/upload_test/files/kp_" + urldate + ".png?bg=1"
 					} else {
-						msg = cityname + cdate + msg
+						msg = cityname + msg
 						url = "https://tesis.lebedev.ru/upload_test/files/fc_" + urldate + ".png"
 						fmt.Println(msg, url)
 					}
