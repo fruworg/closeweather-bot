@@ -190,8 +190,8 @@ func (a *application) msgHandler(m *tbot.Message) {
 							if i == 0 {
 								msg = ""
 							}
-							msg = msg + fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
-								date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
+							msg = msg + fmt.Sprintf("\n\n%s - совет по одежде\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
+								st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
 								strings.TrimLeft(fl[14], "{"), desc)
 						}
 					}
@@ -208,6 +208,9 @@ func (a *application) msgHandler(m *tbot.Message) {
 							} else {
 								desc = desc + " " + arr[i]
 							}
+						}
+						if len(w.Name) > 10 {
+							w.Name = w.Name + "\n"
 						}
 						msg = fmt.Sprintf("%s %s Прогноз на сегодня\n\n%s Сейчас\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n%s.",
 							w.Sys.Country, w.Name, cdate, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, desc) + msg
