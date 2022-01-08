@@ -139,6 +139,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 	msg := "Ты сделал что-то не так!"
 	url := ""
 	urldate := ""
+	desc := ""
 	switch m.Text {
 	case "/week", "/today":
 		city, err := client.Get(m.Chat.ID).Result()
@@ -164,7 +165,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 						dt := strings.Split(st[len(st)-4], "-")
 						date := fmt.Sprintf("%s-%s-%s", dt[2], dt[1], dt[0])
 						urldate = fmt.Sprintf(dt[0], dt[1], dt[2])
-						desc := strings.Title(strings.ToLower(st[11]))
+						desc = strings.Title(strings.ToLower(st[11]))
 						if len(st) == 26 {
 							desc = desc + " " + st[12] + " " + st[13]
 						}
@@ -179,8 +180,8 @@ func (a *application) msgHandler(m *tbot.Message) {
 							}
 						} else {
 							if date == cdate {
-								if i == 0{
-								msg = ""
+								if i == 0 {
+									msg = ""
 								}
 								msg = msg + fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
 									date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
@@ -194,23 +195,24 @@ func (a *application) msgHandler(m *tbot.Message) {
 							log.Fatalln(err)
 						}
 						w.CurrentByName(city)
-						desk := ""
 						arr := strings.Split(fmt.Sprintf("", w.Weather), " ")
 						for i := 3; i < len(arr)-1; i++ {
 							if i == 3 {
-								desk = strings.Title(strings.ToLower(arr[i]))
+								desc = strings.Title(strings.ToLower(arr[i]))
 							} else {
-								desk = desk + " " + arr[i]
+								desc = desc + " " + arr[i]
 							}
 						}
 						msg = fmt.Sprintf("%s %s Прогноз на сегодня\n\n%s Сейчас\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n%s.",
-							w.Sys.Country, w.Name, cdate, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, desk) + msg
+							w.Sys.Country, w.Name, cdate, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, desc) + msg
 						urldate = fmt.Sprintf("%s%s%s", cdt[0], cdt[1], cdt[2])
 						if citycodes[strings.ToLower(city)] != "" {
 							urldate = citycodes[strings.ToLower(city)] + "_" + urldate
 						}
 						url = "https://tesis.lebedev.ru/upload_test/files/kp_" + urldate + ".png?bg=1"
-					}else{url = "https://tesis.lebedev.ru/upload_test/files/fc_" + urldate + ".png"}
+					} else {
+						url = "https://tesis.lebedev.ru/upload_test/files/fc_" + urldate + ".png"
+					}
 				}
 			} else {
 				msg = fmt.Sprintf("%v", len(val.List))
