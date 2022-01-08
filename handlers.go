@@ -6,7 +6,6 @@ import (
 	"log"
 	"os"
 	"strings"
-	"time"
 
 	owm "github.com/briandowns/openweathermap"
 	"github.com/go-redis/redis"
@@ -139,40 +138,9 @@ func (a *application) msgHandler(m *tbot.Message) {
 	a.client.SendChatAction(m.Chat.ID, tbot.ActionTyping)
 	msg := "Ты сделал что-то не так!"
 	url := ""
+	urldate := ""
 	switch m.Text {
-	case "/today":
-		city, err := client.Get(m.Chat.ID).Result()
-		if err == redis.Nil {
-			msg = "Сначала выбери город!\nКоманда /start в помощь."
-
-		} else {
-			w, err := owm.NewCurrent("C", "ru", os.Getenv("OWM_API_KEY")) // fahrenheit (imperial) with Russian output
-			if err != nil {
-				log.Fatalln(err)
-			}
-			city = strings.TrimLeft(city, `{"city":"`)
-			city = strings.TrimRight(city, `"}`)
-			w.CurrentByName(city)
-			desk := ""
-			arr := strings.Split(fmt.Sprintf("", w.Weather), " ")
-			for i := 3; i < len(arr)-1; i++ {
-				if i == 3 {
-					desk = strings.Title(strings.ToLower(arr[i]))
-				} else {
-					desk = desk + " " + arr[i]
-				}
-			}
-			msg = fmt.Sprintf("%s %s Прогноз на сейчас\n\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n%s.",
-				w.Sys.Country, w.Name, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, desk)
-			loc, _ := time.LoadLocation("Europe/Moscow")
-			dt := strings.Split(time.Now().In(loc).Format("2006-01-02"), "-")
-			urldate := fmt.Sprintf("%s%s%s", dt[0], dt[1], dt[2])
-			if citycodes[strings.ToLower(city)] != ""{
-				urldate = citycodes[strings.ToLower(city)] + "_" + urldate
-			}
-			url = "https://tesis.lebedev.ru/upload_test/files/kp_" + urldate + ".png?bg=1"
-		}
-	case "/week":
+	case "/week", "/today":
 		city, err := client.Get(m.Chat.ID).Result()
 		if err == redis.Nil {
 			msg = "Сначала выбери город!\nКоманда /start в помощь."
@@ -187,11 +155,14 @@ func (a *application) msgHandler(m *tbot.Message) {
 			if val, ok := w.ForecastWeatherJson.(*owm.Forecast5WeatherData); ok {
 				if len(val.List) != 0 {
 					msg = fmt.Sprintf("%s %s Прогноз на неделю", val.City.Country, val.City.Name)
+					cst := strings.Split(fmt.Sprintf("%s", val.List[0]), " ")
+					cdate := fmt.Sprintf("%s-%s-%s", cst[2], cst[1], cdt[0])
 					for i := 0; i < 39; i++ {
 						fl := strings.Split(fmt.Sprintf("%.2f", val.List[i:(i+1)]), " ")
 						st := strings.Split(fmt.Sprintf("%s", val.List[i:(i+1)]), " ")
 						dt := strings.Split(st[len(st)-4], "-")
 						date := fmt.Sprintf("%s-%s-%s", dt[2], dt[1], dt[0])
+						urldate = fmt.Sprintf(dt[0], dt[1], dt[2])
 						desc := strings.Title(strings.ToLower(st[11]))
 						if len(st) == 26 {
 							desc = desc + " " + st[12] + " " + st[13]
@@ -199,18 +170,50 @@ func (a *application) msgHandler(m *tbot.Message) {
 						if len(st) == 25 {
 							desc = desc + " " + st[12]
 						}
-						if st[len(st)-3] == "06:00:00" || st[len(st)-3] == "15:00:00" {
-							msg = msg + fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
-								date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
-								strings.TrimLeft(fl[14], "{"), desc)
+						if m.Text == "/week" {
+							if st[len(st)-3] == "06:00:00" || st[len(st)-3] == "15:00:00" {
+								msg = msg + fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
+									date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
+									strings.TrimLeft(fl[14], "{"), desc)
+								url = "https://tesis.lebedev.ru/upload_test/files/fc_" + urldate + ".png"
+							}
+						} else {
+							if date == cdate {
+								msg = msg + fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
+									date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
+									strings.TrimLeft(fl[14], "{"), desc)
+							}
 						}
 					}
-				} else {
-					msg = fmt.Sprintf("%v", len(val.List))
+					if m.Text == "/today" {
+						w, err := owm.NewCurrent("C", "ru", os.Getenv("OWM_API_KEY")) // fahrenheit (imperial) with Russian output
+						if err != nil {
+							log.Fatalln(err)
+						}
+						w.CurrentByName(city)
+						desk := ""
+						arr := strings.Split(fmt.Sprintf("", w.Weather), " ")
+						for i := 3; i < len(arr)-1; i++ {
+							if i == 3 {
+								desk = strings.Title(strings.ToLower(arr[i]))
+							} else {
+								desk = desk + " " + arr[i]
+							}
+						}
+						msg = fmt.Sprintf("%s %s Прогноз на сейчас\n\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n%s.",
+							w.Sys.Country, w.Name, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, desk) + msg
+						urldate = fmt.Sprintf("%s%s%s", cst[0], cst[1], cst[2])
+						if citycodes[strings.ToLower(city)] != "" {
+							urldate = citycodes[strings.ToLower(city)] + "_" + urldate
+						}
+						url = "https://tesis.lebedev.ru/upload_test/files/kp_" + urldate + ".png?bg=1"
+					}
 				}
+			} else {
+				msg = fmt.Sprintf("%v", len(val.List))
 			}
-			url = "https://tesis.lebedev.ru/upload_test/files/fc_" + dt + ".png"
 		}
+
 	default:
 		m.Text = strings.TrimRight(m.Text, " .!")
 		w, err := owm.NewCurrent("C", "ru", os.Getenv("OWM_API_KEY")) // fahrenheit (imperial) with Russian output
