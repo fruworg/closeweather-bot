@@ -190,7 +190,6 @@ func (a *application) msgHandler(m *tbot.Message) {
 						}
 					}
 					if m.Text == "/today" {
-						fmt.Println("func today")
 						w, err := owm.NewCurrent("C", "ru", os.Getenv("OWM_API_KEY")) // fahrenheit (imperial) with Russian output
 						if err != nil {
 							log.Fatalln(err)
