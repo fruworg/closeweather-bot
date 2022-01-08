@@ -182,8 +182,8 @@ func (a *application) msgHandler(m *tbot.Message) {
 									datecheck++
 									msg = msg + "\n\n> Прогноз на " + date
 								}
-								msg = msg + fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
-									date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
+								msg = msg + fmt.Sprintf("\n\n%s - совет по одежде\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
+									st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
 									strings.TrimLeft(fl[14], "{"), desc)
 							}
 						} else if m.Text == "/today" && date == cdate {
