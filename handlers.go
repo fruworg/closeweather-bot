@@ -137,7 +137,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 		"ярославль":       "RMLC"}
 	a.client.SendChatAction(m.Chat.ID, tbot.ActionTyping)
 	msg := "Ты сделал что-то не так!"
-	datecheck, url, urldate, desc := "", "", "", ""
+	datecheck, url, urldate, desc := 0, "", "", ""
 	switch m.Text {
 	case "/week", "/today":
 		city, err := client.Get(m.Chat.ID).Result()
