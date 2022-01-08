@@ -182,10 +182,9 @@ func (a *application) msgHandler(m *tbot.Message) {
 										datecheck = 2
 									}
 									if datecheck == 0 {
-										datecheck2 = 1
+										datecheck = 1
 									}
 								}
-								fmt.Println(st[len(st)-3], datecheck1, datecheck2)
 							}
 						} else if m.Text == "/today" && date == cdate {
 							if i == 0 {
