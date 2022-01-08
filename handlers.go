@@ -248,7 +248,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 	if url == "" {
 		a.client.SendMessage(m.Chat.ID, msg, tbot.OptParseModeMarkdown)
 	} else {
-		fmt.Println(uel)
+		fmt.Println(url)
 		a.client.SendPhoto(m.Chat.ID, url, tbot.OptCaption(msg))
 	}
 }
