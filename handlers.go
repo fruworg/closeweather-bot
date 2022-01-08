@@ -176,7 +176,6 @@ func (a *application) msgHandler(m *tbot.Message) {
 								msg = msg + fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
 									date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
 									strings.TrimLeft(fl[14], "{"), desc)
-								url = "https://tesis.lebedev.ru/upload_test/files/fc_" + urldate + ".png"
 							}
 						} else {
 							if date == cdate {
@@ -211,7 +210,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 							urldate = citycodes[strings.ToLower(city)] + "_" + urldate
 						}
 						url = "https://tesis.lebedev.ru/upload_test/files/kp_" + urldate + ".png?bg=1"
-					}
+					}else{url = "https://tesis.lebedev.ru/upload_test/files/fc_" + urldate + ".png"}
 				}
 			} else {
 				msg = fmt.Sprintf("%v", len(val.List))
