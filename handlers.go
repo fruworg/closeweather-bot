@@ -180,15 +180,13 @@ func (a *application) msgHandler(m *tbot.Message) {
 									date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
 									strings.TrimLeft(fl[14], "{"), desc)
 							}
-						} else if m.Text == "/today" {
-							if date == cdate {
+						} else if m.Text == "/today" && date == cdate{
 								if i == 0 {
 									msg = ""
 								}
 								msg = msg + fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
 									date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
 									strings.TrimLeft(fl[14], "{"), desc)
-							}
 						}
 					}
 					if m.Text == "/today" {
