@@ -174,10 +174,14 @@ func (a *application) msgHandler(m *tbot.Message) {
 						}
 						if m.Text != "/today" {
 							if st[len(st)-3] == "06:00:00" || st[len(st)-3] == "15:00:00" {
-								msg = msg + fmt.Sprintf("%d", i)
+								fmt.Println("week")
+								msg = msg + fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
+									date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
+									strings.TrimLeft(fl[14], "{"), desc)
 							}
 						} else {
 							if date == cdate {
+								fmt.Println("today")
 								if i == 0 {
 									msg = ""
 								}
@@ -188,6 +192,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 						}
 					}
 					if m.Text == "/today" {
+						fmt.Println("func today")
 						w, err := owm.NewCurrent("C", "ru", os.Getenv("OWM_API_KEY")) // fahrenheit (imperial) with Russian output
 						if err != nil {
 							log.Fatalln(err)
