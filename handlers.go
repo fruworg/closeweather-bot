@@ -172,7 +172,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 						if len(st) == 25 {
 							desc = desc + " " + st[12]
 						}
-						if m.Text == "/week" {
+						if m.Text != "/today" {
 							if st[len(st)-3] == "06:00:00" || st[len(st)-3] == "15:00:00" {
 								msg = msg + fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
 									date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
