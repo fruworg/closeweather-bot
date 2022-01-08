@@ -259,40 +259,30 @@ func (a *application) msgHandler(m *tbot.Message) {
 
 func fadvice(stemp string) (advice string) {
 	if temp, err := strconv.ParseFloat(stemp, 32); err == nil {
-		if temp <= -50.00 {
+		switch {
+		case temp <= -50.00:
 			advice = "Сиди дома"
-		}
-		if temp <= -40.00 {
+		case temp <= -40.00:
 			advice = "-40"
-		}
-		if temp <= -30.00 {
+		case temp <= -30.00:
 			advice = "-30"
-		}
-		if temp <= -20.00 {
+		case temp <= -20.00:
 			advice = "-20"
-		}
-		if temp <= -10.00 {
+		case temp <= -10.00:
 			advice = "-10"
-		}
-		if temp <= 00.00 {
+		case temp <= 00.00:
 			advice = "00"
-		}
-		if temp >= 00.00 {
+		case temp >= 00.00:
 			advice = "0"
-		}
-		if temp >= 10.00 {
+		case temp >= 10.00:
 			advice = "10"
-		}
-		if temp >= 20.00 {
+		case temp >= 20.00:
 			advice = "20"
-		}
-		if temp >= 30.00 {
+		case temp >= 30.00:
 			advice = "Шорты + футболка"
-		}
-		if temp >= 40.00 {
+		case temp >= 40.00:
 			advice = "Одежда не нужна"
-		}
-		if temp >= 50.00 {
+		case temp >= 50.00:
 			advice = "Сиди дома"
 		}
 	}
