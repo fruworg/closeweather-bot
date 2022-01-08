@@ -174,7 +174,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 						}
 						if m.Text != "/today" {
 							if st[len(st)-3] == "06:00:00" || st[len(st)-3] == "15:00:00" {
-								msg = msg + i
+								msg = msg + fmt.Sprintf("%d", i)
 							}
 						} else {
 							if date == cdate {
