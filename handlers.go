@@ -137,7 +137,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 		"ярославль":       "RMLC"}
 	a.client.SendChatAction(m.Chat.ID, tbot.ActionTyping)
 	msg := "Ты сделал что-то не так!"
-	datecheck1, datecheck2, url, urldate, desc := "", "", "", "", ""
+	datecheck, url, urldate, desc := "", "", "", ""
 	switch m.Text {
 	case "/week", "/today":
 		city, err := client.Get(m.Chat.ID).Result()
@@ -173,16 +173,17 @@ func (a *application) msgHandler(m *tbot.Message) {
 						if m.Text != "/today" && date != cdate {
 							if ((st[len(st)-3] == "09:00:00" || st[len(st)-3] == "15:00:00" ||
 								st[len(st)-3] == "21:00:00") && i < len(val.List)-15) ||
-								((st[len(st)-3] == "06:00:00" || st[len(st)-3] == "18:00:00") &&
-									(datecheck1 != "" && datecheck2 != "")) {
+								((st[len(st)-3] == "06:00:00" || st[len(st)-3] == "18:00:00") && datecheck == 2) {
 								msg = msg + fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
 									date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
 									strings.TrimLeft(fl[14], "{"), desc)
 								if st[len(st)-3] == "21:00:00" {
-									if datecheck1 == "ok" {
-										datecheck2 = "ok"
+									if datecheck == 1 {
+										datecheck = 2
 									}
-									datecheck1 = "ok"
+									if datecheck == 0 {
+										datecheck2 = 1
+									}
 								}
 								fmt.Println(st[len(st)-3], datecheck1, datecheck2)
 							}
