@@ -214,6 +214,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 					} else {
 						msg = fmt.Sprintf("%s\n\n> Прогноз на %s%s", cityname, cdate, msg)
 						url = "https://tesis.lebedev.ru/upload_test/files/fc_" + urldate + ".png"
+						fmt.Println(msg, url)
 					}
 				}
 			} else {
