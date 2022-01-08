@@ -160,7 +160,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 					cdt := strings.Split(cst[len(cst)-4], "-")
 					cdate := fmt.Sprintf("%s-%s-%s", cdt[2], cdt[1], cdt[0])
 					urldate = fmt.Sprintf("%s%s%s", cdt[0], cdt[1], cdt[2])
-					for i := 0; i < 39; i++ {
+					for i := 0; i < len(val.List) - 1; i++ {
 						fl := strings.Split(fmt.Sprintf("%.2f", val.List[i:(i+1)]), " ")
 						st := strings.Split(fmt.Sprintf("%s", val.List[i:(i+1)]), " ")
 						dt := strings.Split(st[len(st)-4], "-")
@@ -174,9 +174,10 @@ func (a *application) msgHandler(m *tbot.Message) {
 						}
 						if m.Text != "/today" {
 							if (st[len(st)-3] == "09:00:00" ||  st[len(st)-3] == "15:00:00" || st[len(st)-3] == "21:00:00") && (date != cdate) {
-								msg = msg + fmt.Sprintf("\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
+								if i != len(val.List) - 1 {
+								msg = msg + fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
 									date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
-									strings.TrimLeft(fl[14], "{"), desc)
+											strings.TrimLeft(fl[14], "{"), desc)}
 							}
 						} else {
 							if date == cdate {
