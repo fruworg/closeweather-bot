@@ -155,7 +155,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 					if len(val.City.Name) > 10 {
 						cityname = val.City.Country + " Прогноз на сегодня\n" + val.City.Name
 					} else {
-						cityname = val.City.Country + val.City.Name + " Прогноз на сегодня"
+						cityname = val.City.Country + " " + val.City.Name + " Прогноз на сегодня"
 					}
 					cst := strings.Split(fmt.Sprintf("%s", val.List[0]), " ")
 					cdt := strings.Split(cst[len(cst)-4], "-")
