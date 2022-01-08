@@ -159,12 +159,12 @@ func (a *application) msgHandler(m *tbot.Message) {
 					cst := strings.Split(fmt.Sprintf("%s", val.List[0]), " ")
 					cdt := strings.Split(cst[len(cst)-4], "-")
 					cdate := fmt.Sprintf("%s-%s-%s", cdt[2], cdt[1], cdt[0])
+					urldate = fmt.Sprintf("%s%s%s", cdt[0], cdt[1], cdt[2])
 					for i := 0; i < 39; i++ {
 						fl := strings.Split(fmt.Sprintf("%.2f", val.List[i:(i+1)]), " ")
 						st := strings.Split(fmt.Sprintf("%s", val.List[i:(i+1)]), " ")
 						dt := strings.Split(st[len(st)-4], "-")
 						date := fmt.Sprintf("%s-%s-%s", dt[2], dt[1], dt[0])
-						urldate = fmt.Sprintf(dt[0], dt[1], dt[2])
 						desc = strings.Title(strings.ToLower(st[11]))
 						if len(st) == 26 {
 							desc = desc + " " + st[12] + " " + st[13]
@@ -174,14 +174,12 @@ func (a *application) msgHandler(m *tbot.Message) {
 						}
 						if m.Text != "/today" {
 							if st[len(st)-3] == "06:00:00" || st[len(st)-3] == "15:00:00" {
-								fmt.Println("week")
 								msg = msg + fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
 									date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
 									strings.TrimLeft(fl[14], "{"), desc)
 							}
 						} else {
 							if date == cdate {
-								fmt.Println("today")
 								if i == 0 {
 									msg = ""
 								}
@@ -208,15 +206,12 @@ func (a *application) msgHandler(m *tbot.Message) {
 						}
 						msg = fmt.Sprintf("%s %s Прогноз на сегодня\n\n%s Сейчас\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n%s.",
 							w.Sys.Country, w.Name, cdate, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, desc) + msg
-						urldate = fmt.Sprintf("%s%s%s", cdt[0], cdt[1], cdt[2])
 						if citycodes[strings.ToLower(city)] != "" {
 							urldate = citycodes[strings.ToLower(city)] + "_" + urldate
 						}
 						url = "https://tesis.lebedev.ru/upload_test/files/kp_" + urldate + ".png?bg=1"
 					} else {
-						fmt.Println(msg)
 						url = "https://tesis.lebedev.ru/upload_test/files/fc_" + urldate + ".png"
-						fmt.Println(url)
 					}
 				}
 			} else {
@@ -248,7 +243,6 @@ func (a *application) msgHandler(m *tbot.Message) {
 	if url == "" {
 		a.client.SendMessage(m.Chat.ID, msg, tbot.OptParseModeMarkdown)
 	} else {
-		fmt.Println(url)
 		a.client.SendPhoto(m.Chat.ID, url, tbot.OptCaption(msg))
 	}
 }
