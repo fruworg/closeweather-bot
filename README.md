@@ -1,4 +1,4 @@
-**### [t.me/closeweatherbot](https://t.me/closeweatherbot)
+### [t.me/closeweatherbot](https://t.me/closeweatherbot)
 ```
                 .__                                            __  .__                  
            ____ |  |   ____  ______ ______  _  __ ____ _____ _/  |_|  |__   ___________ 
