@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 
 	owm "github.com/briandowns/openweathermap"
@@ -153,12 +154,12 @@ func (a *application) msgHandler(m *tbot.Message) {
 			if val, ok := w.ForecastWeatherJson.(*owm.Forecast5WeatherData); ok {
 				if len(val.List) != 0 {
 					if m.Text == "/week" {
-						cityname = " Прогноз на неделю"
+						cityname = " Прогноз на неделю\n"
 					} else {
-						cityname = " Прогноз на сегодня"
+						cityname = " Прогноз на сегодня\n"
 					}
 					if len(val.City.Name) > 10 {
-						cityname = val.City.Country + cityname + "\n" + val.City.Name
+						cityname = val.City.Country + cityname + val.City.Name
 					} else {
 						cityname = val.City.Country + " " + val.City.Name + cityname
 					}
@@ -187,13 +188,13 @@ func (a *application) msgHandler(m *tbot.Message) {
 									datecheck++
 									msg = msg + "\n\n> Прогноз на " + date
 								}
-								msg = msg + fmt.Sprintf("\n\n%s - совет по одежде\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
-									st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
+								msg = msg + fmt.Sprintf("\n\n%s - %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
+									st[len(st)-3], fadvice(fl[4]), strings.TrimLeft(fl[1], "{"), fl[4],
 									strings.TrimLeft(fl[14], "{"), desc)
 							}
 						} else if m.Text == "/today" && date == cdate {
-							msg = msg + fmt.Sprintf("\n\n%s - совет по одежде\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
-								st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
+							msg = msg + fmt.Sprintf("\n\n%s - %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
+								st[len(st)-3], fadvice(fl[4]), strings.TrimLeft(fl[1], "{"), fl[4],
 								strings.TrimLeft(fl[14], "{"), desc)
 						}
 					}
@@ -254,4 +255,46 @@ func (a *application) msgHandler(m *tbot.Message) {
 	} else {
 		a.client.SendPhoto(m.Chat.ID, url, tbot.OptCaption(msg))
 	}
+}
+
+func fadvice(stemp string) (advice string) {
+	if temp, err := strconv.ParseFloat(stemp, 32); err == nil {
+		if temp <= -50.00 {
+			advice = "Сиди дома"
+		}
+		if temp <= -40.00 {
+			advice = "z"
+		}
+		if temp <= -30.00 {
+			advice = "x"
+		}
+		if temp <= -20.00 {
+			advice = "c"
+		}
+		if temp <= -10.00 {
+			advice = ""
+		}
+		if temp <= 00.00 {
+			advice = ""
+		}
+		if temp >= 00.00 {
+			advice = ""
+		}
+		if temp >= 10.00 {
+			advice = ""
+		}
+		if temp >= 20.00 {
+			advice = ""
+		}
+		if temp >= 30.00 {
+			advice = "Шорты + футболка"
+		}
+		if temp >= 40.00 {
+			advice = "Одежда не нужна"
+		}
+		if temp >= 50.00 {
+			advice = "Сиди дома"
+		}
+	}
+	return
 }
