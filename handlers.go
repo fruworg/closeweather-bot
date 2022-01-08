@@ -136,7 +136,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 		"якутск":          "SCST",
 		"ярославль":       "RMLC"}
 	a.client.SendChatAction(m.Chat.ID, tbot.ActionTyping)
-	msg, datecheck, cityname, desc, url, urldate := "", /*0,*/ "", "", "", ""
+	msg, datecheck, cityname, desc, url, urldate := "", 0, "", "", "", ""
 	switch m.Text {
 	case "/week", "/today":
 		city, err := client.Get(m.Chat.ID).Result()
@@ -175,10 +175,10 @@ func (a *application) msgHandler(m *tbot.Message) {
 						}
 						if m.Text == "/week" && date != cdate {
 							if /*((st[len(st)-3] == "09:00:00" || st[len(st)-3] == "15:00:00" ||
-							     st[len(st)-3] == "21:00:00") && datecheck == 0) ||*/
-								(st[len(st)-3] == "06:00:00" || st[len(st)-3] == "18:00:00") {
-									if st[len(st)-3] == "06:00:00" || datecheck == 0
-								/*st[len(st)-3] == "21:00:00" || st[len(st)-3] == "18:00:00"*/  {
+							  st[len(st)-3] == "21:00:00") && datecheck == 0) ||*/
+							st[len(st)-3] == "06:00:00" || st[len(st)-3] == "18:00:00" {
+								if st[len(st)-3] == "06:00:00" || datecheck == 0 {
+									/*st[len(st)-3] == "21:00:00" || st[len(st)-3] == "18:00:00"*/
 									datecheck++
 									msg = msg + "\n\n> Прогноз на " + date
 								}
