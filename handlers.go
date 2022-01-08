@@ -201,7 +201,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 								desk = desk + " " + arr[i]
 							}
 						}
-						msg = fmt.Sprintf("%s %s Прогноз на сейчас\n\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n%s.",
+						msg = fmt.Sprintf("%s %s Прогноз на сейчас\n\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n%s.\n\n",
 							w.Sys.Country, w.Name, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, desk) + msg
 						urldate = fmt.Sprintf("%s%s%s", cdt[0], cdt[1], cdt[2])
 						if citycodes[strings.ToLower(city)] != "" {
