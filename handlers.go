@@ -214,7 +214,9 @@ func (a *application) msgHandler(m *tbot.Message) {
 						}
 						url = "https://tesis.lebedev.ru/upload_test/files/kp_" + urldate + ".png?bg=1"
 					} else {
+						fmt.Println(msg)
 						url = "https://tesis.lebedev.ru/upload_test/files/fc_" + urldate + ".png"
+						fmt.Println(url)
 					}
 				}
 			} else {
@@ -246,6 +248,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 	if url == "" {
 		a.client.SendMessage(m.Chat.ID, msg, tbot.OptParseModeMarkdown)
 	} else {
+		fmt.Println(uel)
 		a.client.SendPhoto(m.Chat.ID, url, tbot.OptCaption(msg))
 	}
 }
