@@ -182,7 +182,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 									datecheck++
 									msg = msg + "\n\n> Прогноз на " + date
 								}
-								if st[len(st)-3] == "18:00:00" && datecheck == 3 {
+								if st[len(st)-3] == "15:00:00" && datecheck == 3 {
 									datecheck = 10
 								}
 								msg = msg + fmt.Sprintf("\n\n%s - %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
