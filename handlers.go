@@ -136,7 +136,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 		"якутск":          "SCST",
 		"ярославль":       "RMLC"}
 	a.client.SendChatAction(m.Chat.ID, tbot.ActionTyping)
-	msg, /*datecheck,*/ cityname, desc, url, urldate := "", /*0,*/ "", "", "", ""
+	msg, datecheck, cityname, desc, url, urldate := "", /*0,*/ "", "", "", ""
 	switch m.Text {
 	case "/week", "/today":
 		city, err := client.Get(m.Chat.ID).Result()
@@ -177,8 +177,9 @@ func (a *application) msgHandler(m *tbot.Message) {
 							if /*((st[len(st)-3] == "09:00:00" || st[len(st)-3] == "15:00:00" ||
 							     st[len(st)-3] == "21:00:00") && datecheck == 0) ||*/
 								(st[len(st)-3] == "06:00:00" || st[len(st)-3] == "18:00:00") {
-								if st[len(st)-3] == "21:00:00" || st[len(st)-3] == "18:00:00" {
-									//datecheck++
+									if st[len(st)-3] == "06:00:00" || datecheck == 0
+								/*st[len(st)-3] == "21:00:00" || st[len(st)-3] == "18:00:00"*/  {
+									datecheck++
 									msg = msg + "\n\n> Прогноз на " + date
 								}
 								msg = msg + fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
@@ -212,7 +213,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 						}
 						url = "https://tesis.lebedev.ru/upload_test/files/kp_" + urldate + ".png?bg=1"
 					} else {
-						msg = fmt.Sprintf("%s\n\n> Прогноз на %s%s", cityname, cdate, msg)
+						msg = cityname + cdate + msg
 						url = "https://tesis.lebedev.ru/upload_test/files/fc_" + urldate + ".png"
 						fmt.Println(msg, url)
 					}
