@@ -177,21 +177,11 @@ func (a *application) msgHandler(m *tbot.Message) {
 							if ((st[len(st)-3] == "09:00:00" || st[len(st)-3] == "15:00:00" ||
 								st[len(st)-3] == "21:00:00") && i < len(val.List)-15) ||
 								((st[len(st)-3] == "06:00:00" || st[len(st)-3] == "18:00:00") && datecheck > 1) {
-								if st[len(st)-3] == "21:00:00" {
-									if datecheck == 2 {
-										datecheck = 3
-										msg = msg + "\n> Прогноз на " + date + "\n"
-									}
-									if datecheck == 1 {
-										datecheck = 2
-										msg = msg + "\n> Прогноз на " + date + "\n"
-									}
-									if datecheck == 0 {
-										datecheck = 1
-										msg = msg + "\n> Прогноз на " + date + "\n"
-									}
+								if st[len(st)-3] == "21:00:00" || st[len(st)-3] == "18:00:00" {
+									datecheck++
+									msg = msg + "\n> Прогноз на " + date
 								}
-									msg = msg + fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
+								msg = msg + fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
 									date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
 									strings.TrimLeft(fl[14], "{"), desc)
 							}
@@ -222,7 +212,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 						}
 						url = "https://tesis.lebedev.ru/upload_test/files/kp_" + urldate + ".png?bg=1"
 					} else {
-						msg = cityname + msg
+						msg = cityname + "\n\n> Прогноз на" + cdate + msg
 						url = "https://tesis.lebedev.ru/upload_test/files/fc_" + urldate + ".png"
 					}
 				}
