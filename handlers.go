@@ -154,12 +154,12 @@ func (a *application) msgHandler(m *tbot.Message) {
 			if val, ok := w.ForecastWeatherJson.(*owm.Forecast5WeatherData); ok {
 				if len(val.List) != 0 {
 					if m.Text == "/week" {
-						cityname = " Прогноз на неделю\n"
+						cityname = " Прогноз на неделю"
 					} else {
-						cityname = " Прогноз на сегодня\n"
+						cityname = " Прогноз на сегодня"
 					}
 					if len(val.City.Name) > 10 {
-						cityname = val.City.Country + cityname + val.City.Name
+						cityname = val.City.Country + cityname + "\n" + val.City.Name
 					} else {
 						cityname = val.City.Country + " " + val.City.Name + cityname
 					}
@@ -193,7 +193,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 									strings.TrimLeft(fl[14], "{"), desc)
 							}
 						} else if m.Text == "/today" && date == cdate {
-							msg = msg + fmt.Sprintf("\n\n%s - %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
+							msg = msg + fmt.Sprintf("\n\n%s - совет по одежде\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
 								st[len(st)-3], fadvice(fl[4]), strings.TrimLeft(fl[1], "{"), fl[4],
 								strings.TrimLeft(fl[14], "{"), desc)
 						}
@@ -263,28 +263,28 @@ func fadvice(stemp string) (advice string) {
 			advice = "Сиди дома"
 		}
 		if temp <= -40.00 {
-			advice = "z"
+			advice = "-40"
 		}
 		if temp <= -30.00 {
-			advice = "x"
+			advice = "-30"
 		}
 		if temp <= -20.00 {
-			advice = "c"
+			advice = "-20"
 		}
 		if temp <= -10.00 {
-			advice = ""
+			advice = "-10"
 		}
 		if temp <= 00.00 {
-			advice = ""
+			advice = "00"
 		}
 		if temp >= 00.00 {
-			advice = ""
+			advice = "0"
 		}
 		if temp >= 10.00 {
-			advice = ""
+			advice = "10"
 		}
 		if temp >= 20.00 {
-			advice = ""
+			advice = "20"
 		}
 		if temp >= 30.00 {
 			advice = "Шорты + футболка"
