@@ -173,7 +173,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 						if len(st) == 25 {
 							desc = desc + " " + st[12]
 						}
-						if m.Text != "/today" && date != cdate {
+						if m.Text == "/week" && date != cdate {
 							if ((st[len(st)-3] == "09:00:00" || st[len(st)-3] == "15:00:00" ||
 								st[len(st)-3] == "21:00:00") && i < len(val.List)-15) ||
 								((st[len(st)-3] == "06:00:00" || st[len(st)-3] == "18:00:00") && datecheck > 1) {
@@ -181,7 +181,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 									datecheck++
 									msg = msg + "\n> Прогноз на " + date
 								}
-								msg = msg + fmt.Sprintf("\n\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
+								msg = msg + fmt.Sprintf("\n%s %s\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
 									date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
 									strings.TrimLeft(fl[14], "{"), desc)
 							}
@@ -212,7 +212,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 						}
 						url = "https://tesis.lebedev.ru/upload_test/files/kp_" + urldate + ".png?bg=1"
 					} else {
-						msg = cityname + "\n\n> Прогноз на" + cdate + msg
+						msg = cityname + "\n\n> Прогноз на" + cdate + "\n" msg
 						url = "https://tesis.lebedev.ru/upload_test/files/fc_" + urldate + ".png"
 					}
 				}
