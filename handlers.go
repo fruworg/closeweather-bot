@@ -137,7 +137,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 		"ярославль":       "RMLC"}
 	a.client.SendChatAction(m.Chat.ID, tbot.ActionTyping)
 	msg := "Ты сделал что-то не так!"
-	datecheck, url, urldate, desc := 0, "", "", ""
+	datecheck, cityname, desc, url, urldate := 0, "", "", "", ""
 	switch m.Text {
 	case "/week", "/today":
 		city, err := client.Get(m.Chat.ID).Result()
@@ -153,7 +153,11 @@ func (a *application) msgHandler(m *tbot.Message) {
 			w.DailyByName(city, 0)
 			if val, ok := w.ForecastWeatherJson.(*owm.Forecast5WeatherData); ok {
 				if len(val.List) != 0 {
-					msg = fmt.Sprintf("%s %s Прогноз на неделю", val.City.Country, val.City.Name)
+					if len(val.City.Name) > 10 {
+						cityname = val.City.Country + "Прогноз на сегодня\n" + val.City.Name
+					} else {
+						cityname = val.City.Country + val.City.Name + "Прогноз на сегодня"
+					}
 					cst := strings.Split(fmt.Sprintf("%s", val.List[0]), " ")
 					cdt := strings.Split(cst[len(cst)-4], "-")
 					cdate := fmt.Sprintf("%s-%s-%s", cdt[2], cdt[1], cdt[0])
@@ -187,9 +191,6 @@ func (a *application) msgHandler(m *tbot.Message) {
 								}
 							}
 						} else if m.Text == "/today" && date == cdate {
-							if i == 0 {
-								msg = ""
-							}
 							msg = msg + fmt.Sprintf("\n\n%s - совет по одежде\nТемпература: %s°\nОщущается: %s°\nВетер: %s м/c\n%s.",
 								st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
 								strings.TrimLeft(fl[14], "{"), desc)
@@ -209,18 +210,14 @@ func (a *application) msgHandler(m *tbot.Message) {
 								desc = desc + " " + arr[i]
 							}
 						}
-						if len(w.Name) > 10 {
-							w.Name = "Прогноз на сегодня\n" + w.Name
-						} else {
-							w.Name = w.Name + "Прогноз на сегодня"
-						}
-						msg = fmt.Sprintf("%s %s\n\nСейчас\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n%s.",
-							w.Sys.Country, w.Name, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, desc) + msg
+						msg = fmt.Sprintf("%s\n\nСейчас - совет по одежде\nТемпература: %.2f°\nОщущается как: %.2f°\nСкорость ветра: %.2f м/c\n%s.",
+							cityname, w.Name, w.Main.Temp, w.Main.FeelsLike, w.Wind.Speed, desc) + msg
 						if citycodes[strings.ToLower(city)] != "" {
 							urldate = citycodes[strings.ToLower(city)] + "_" + urldate
 						}
 						url = "https://tesis.lebedev.ru/upload_test/files/kp_" + urldate + ".png?bg=1"
 					} else {
+						msg = cityname + msg
 						url = "https://tesis.lebedev.ru/upload_test/files/fc_" + urldate + ".png"
 					}
 				}
