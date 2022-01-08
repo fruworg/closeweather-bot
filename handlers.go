@@ -179,7 +179,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 									date, st[len(st)-3], strings.TrimLeft(fl[1], "{"), fl[4],
 									strings.TrimLeft(fl[14], "{"), desc)
 							}
-						} else {
+						} else if m.Text == "/today"{
 							if date == cdate {
 								if i == 0 {
 									msg = ""
