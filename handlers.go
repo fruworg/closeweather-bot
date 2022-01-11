@@ -244,7 +244,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 			msg = "Город изменён - " + w.Name + " " + w.Sys.Country + "."
 		}
 	}
-	url = "https://tesis.lebedev.ru/upload_test/files/fc3_R4MO.png"
+	fmt.Println(url)
 	if url == "" {
 		a.client.SendMessage(m.Chat.ID, msg, tbot.OptParseModeMarkdown)
 	} else {
