@@ -224,8 +224,6 @@ func (a *application) msgHandler(m *tbot.Message) {
 			} else {
 				msg = fmt.Sprintf("%v", len(val.List))
 			}
-			fmt.Println("msg" + msg)
-			fmt.Println("url" + url)
 		}
 
 	default:
