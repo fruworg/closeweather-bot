@@ -216,7 +216,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 						url = "https://tesis.lebedev.ru/upload_test/files/kp_" + urldate + ".png?bg=1"
 					} else {
 						msg = cityname + msg
-						url = "https://tesis.lebedev.ru/upload_test/files/fc_" + urldate + ".png"
+						url = "https://tesis.lebedev.ru/upload_test/files/fc_" + urldate + ".png?bg=1"
 					}
 				}
 			} else {
@@ -244,7 +244,6 @@ func (a *application) msgHandler(m *tbot.Message) {
 			msg = "Город изменён - " + w.Name + " " + w.Sys.Country + "."
 		}
 	}
-	fmt.Println(url)
 	if url == "" {
 		a.client.SendMessage(m.Chat.ID, msg, tbot.OptParseModeMarkdown)
 	} else {
