@@ -175,8 +175,8 @@ func (a *application) msgHandler(m *tbot.Message) {
 						}
 						if m.Text == "/week" && date != cdate {
 							if ((st[len(st)-3] == "09:00:00" || st[len(st)-3] == "15:00:00") && datecheck < 3) ||
-								(st[len(st)-3] == "15:00:00" && datecheck == 3) ||
-								/*(st[len(st)-3] == "12:00:00" && datecheck == 10)*/ {
+							(st[len(st)-3] == "15:00:00" && datecheck == 3) /*||
+								(st[len(st)-3] == "12:00:00" && datecheck == 10) */{
 								if st[len(st)-3] == "09:00:00" || datecheck == 0 || datecheck == 10 {
 									datecheck++
 									msg = msg + "\n\n> Прогноз на " + date
