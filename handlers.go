@@ -138,8 +138,7 @@ func (a *application) msgHandler(m *tbot.Message) {
 		"ярославль":       "RMLC"}
 	a.client.SendChatAction(m.Chat.ID, tbot.ActionTyping)
 	msg, datecheck, cityname, desc, url, urldate := "", 0, "", "", "", ""
-	switch m.Text {
-	case "/week", "/today":
+	if m.Text == "/week" || m.Text == "/today" {
 		city, err := client.Get(m.Chat.ID).Result()
 		if err == redis.Nil {
 			msg = "Сначала выбери город!\nКоманда /start в помощь."
@@ -218,15 +217,13 @@ func (a *application) msgHandler(m *tbot.Message) {
 					} else {
 						msg = cityname + msg
 						url = "https://tesis.lebedev.ru/upload_test/files/fc_" + urldate + ".png"
-						fmt.Println(msg, url)
 					}
 				}
 			} else {
 				msg = fmt.Sprintf("%v", len(val.List))
 			}
 		}
-
-	default:
+	} else {
 		m.Text = strings.TrimRight(m.Text, " .!")
 		w, err := owm.NewCurrent("C", "ru", os.Getenv("OWM_API_KEY")) // fahrenheit (imperial) with Russian output
 		if err != nil {
